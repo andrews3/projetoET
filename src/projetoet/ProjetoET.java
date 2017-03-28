@@ -15,6 +15,8 @@ public class ProjetoET extends JFrame {
         super("Escudeiro das Compras");
         c = this.getContentPane();
 
+        System.out.println("Teste de Commit");
+        
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setSize(1280, 720);
         this.setLocationRelativeTo(null);
