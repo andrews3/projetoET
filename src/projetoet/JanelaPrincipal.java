@@ -16,15 +16,22 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDesktopPane;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import projetoet.util.Produto;
+import projetoet.util.Setor;
+import projetoet.util.Usuarios;
 
 /**
  *
@@ -43,14 +50,22 @@ public class JanelaPrincipal extends JFrame {
     JMenuItem menuExibirProdutos;
     JMenuItem menuSobrePrograma, menuSobreDesenvolvedor, menuSobreBancoDados;
     JMenuItem menuOpcoesBanco;
-    static JMenu menuExibir, menuSobre, menuCadastro;
-    static JButton botaoCadastrar, botaoExibir, botaoSair;
+    JMenu menuExibir, menuSobre, menuCadastro;
+    JButton botaoCadastrar, botaoExibir, botaoSair;
     static JanelaPrincipal main;
     JDesktopPane mJdp;
-    static LoginJanela loginJanela;
+    LoginJanela loginJanela;
     boolean bJanelaCadastroProduto, bJanelaCadastroSetor, bJanelaSelecaoBanco, bJanelaExibirProdutos;
+    CadastroProdutoJanela novaJanelaCadastroProduto;
+    CadastroSetorJanela novaJanelaCadastroSetor;
+    SelecaoBancoJanela novaJanelaSelecaoBanco;
+    ExibirProdutoJanela novaJanelaExibirProduto;
 
-    static private void visibilidadeComponentes(boolean b) {
+    private void mostraMensagemErro(String s, String i) {
+        JOptionPane.showMessageDialog(null, s, i, JOptionPane.ERROR_MESSAGE);
+    }
+
+    private void visibilidadeComponentes(boolean b) {
         menuCadastro.setVisible(b);
         menuExibir.setVisible(b);
         botaoCadastrar.setVisible(b);
@@ -133,7 +148,6 @@ public class JanelaPrincipal extends JFrame {
 
     private void iniciaCadastroProdutos() {
         if (!bJanelaCadastroProduto) {
-            CadastroProdutoJanela novaJanelaCadastroProduto;
             novaJanelaCadastroProduto = new CadastroProdutoJanela();
             novaJanelaCadastroProduto.setVisible(true);
             mJdp.add(novaJanelaCadastroProduto);
@@ -179,13 +193,34 @@ public class JanelaPrincipal extends JFrame {
                 }
             });
 
+            novaJanelaCadastroProduto.adicionarBotao.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent ae) {
+                    if (novaJanelaCadastroProduto.codTf.getText().length() >= 1) {
+                        if (novaJanelaCadastroProduto.verificaCodigo()) {
+                            String nomeProduto = novaJanelaCadastroProduto.nomeTf.getText();
+                            int codProduto = Integer.parseInt(novaJanelaCadastroProduto.codTf.getText());
+                            String setorProduto = novaJanelaCadastroProduto.setorCb.getSelectedItem().toString();
+                            Produto produto = new Produto(nomeProduto, codProduto, setorProduto);
+                            try {
+                                novaJanelaCadastroProduto.insereProdutos(produto);
+                            } catch (SQLException ex) {
+                                Logger.getLogger(CadastroProdutoJanela.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        } else {
+                            mostraMensagemErro("O Código não pode possuir letras, somente números", "Caracteres Inválidos");
+                        }
+                    } else {
+                        mostraMensagemErro("Não é possível cadastrar um produto sem um código", "Código Inválido");
+                    }
+                }
+            });
         }
 
     }
 
     private void iniciaCadastroSetores() throws SQLException {
         if (!bJanelaCadastroSetor) {
-            CadastroSetorJanela novaJanelaCadastroSetor;
             novaJanelaCadastroSetor = new CadastroSetorJanela();
             novaJanelaCadastroSetor.setVisible(true);
             mJdp.add(novaJanelaCadastroSetor);
@@ -231,12 +266,48 @@ public class JanelaPrincipal extends JFrame {
                 }
             });
 
+            novaJanelaCadastroSetor.botaoSalvar.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent ae) {
+                    boolean bCadastro = novaJanelaCadastroSetor.cadastraSetor();
+                    if (bCadastro) {
+                        try {
+                            novaJanelaCadastroSetor.loadSetores();
+                        } catch (SQLException ex) {
+                            Logger.getLogger(CadastroSetorJanela.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        novaJanelaCadastroSetor.model.removeAll();
+                        novaJanelaCadastroSetor.populaTabela();
+                    }
+                }
+            });
+
+            novaJanelaCadastroSetor.botaoDeletar.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent ae) {
+                    UIManager.put("OptionPane.noButtonText", "Não");
+                    UIManager.put("OptionPane.yesButtonText", "Sim");
+                    if (novaJanelaCadastroSetor.isRowSelected()) {
+                        int op = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja deletar o setor?", "Deletar Setor", JOptionPane.YES_NO_OPTION);
+                        if (op == JOptionPane.YES_OPTION) {
+                            int linha = novaJanelaCadastroSetor.tabelaSetores.getSelectedRow();
+                            Setor s = novaJanelaCadastroSetor.model.get(linha);
+                            novaJanelaCadastroSetor.removeSetorBanco(s.getId());
+                            novaJanelaCadastroSetor.model.removeRow(linha);
+                        }
+                    } else {
+                        mostraMensagemErro("Verifique se há um setor selecionado e se há somente um setor selecionado", "Não foi possível deletar");
+                    }
+
+                }
+            });
+
         }
     }
 
     private void iniciaSelecaoBanco() {
         if (!bJanelaSelecaoBanco) {
-            SelecaoBancoJanela novaJanelaSelecaoBanco;
+
             novaJanelaSelecaoBanco = new SelecaoBancoJanela();
             novaJanelaSelecaoBanco.setVisible(true);
             mJdp.add(novaJanelaSelecaoBanco);
@@ -282,12 +353,57 @@ public class JanelaPrincipal extends JFrame {
                 }
             });
 
+            novaJanelaSelecaoBanco.botaoProcuraCaminho.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent ae) {
+                    JFileChooser fc = new JFileChooser();
+
+                    fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+                    fc.showOpenDialog(c);
+                    novaJanelaSelecaoBanco.caminhoArquivo = fc.getSelectedFile().getAbsolutePath();
+                    novaJanelaSelecaoBanco.caminhoBancoTf.setText(novaJanelaSelecaoBanco.caminhoArquivo);
+                }
+            });
+            novaJanelaSelecaoBanco.botaoSalvarCaminho.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent ae) {
+                    int op = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja salvar esse caminho para o banco de dados? Caso "
+                            + "o caminho esteja errado,\ntoda a aplicação deixará de funcionar.", "Salvar Banco de Dados", JOptionPane.YES_NO_OPTION);
+                    if (op == JOptionPane.YES_OPTION) {
+                        if (novaJanelaSelecaoBanco.caminhoArquivo.length() > 2) {
+                            if (novaJanelaSelecaoBanco.caminhoArquivo.charAt(0) == 'C') {
+                                int maximoArray = novaJanelaSelecaoBanco.caminhoArquivo.length() - 2;
+                                novaJanelaSelecaoBanco.caminhoArquivoFinal = new char[maximoArray];
+                                int y = 0;
+                                for (int i = 2; i < novaJanelaSelecaoBanco.caminhoArquivo.length(); i++) {
+                                    if (novaJanelaSelecaoBanco.caminhoArquivo.charAt(i) == '\\') {
+                                        novaJanelaSelecaoBanco.caminhoArquivoFinal[y] = '/';
+                                    } else {
+                                        novaJanelaSelecaoBanco.caminhoArquivoFinal[y] = novaJanelaSelecaoBanco.caminhoArquivo.charAt(i);
+                                    }
+                                    y++;
+                                }
+
+                                String l = "";
+                                for (int i = 0; i < novaJanelaSelecaoBanco.caminhoArquivoFinal.length; i++) {
+                                    l = l + novaJanelaSelecaoBanco.caminhoArquivoFinal[i];
+                                }
+                                parteCaminhoBanco = l + "/";
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Não é possível selecionar o banco de dados de fora da raiz C:", "Caminho Inválido", JOptionPane.ERROR_MESSAGE);
+                            }
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Caminho do Banco não alterado.", "Caminho Inalterado", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+                }
+            });
         }
     }
 
     private void iniciaExibirProdutos() {
         if (!bJanelaExibirProdutos) {
-            ExibirProdutoJanela novaJanelaExibirProduto;
+
             novaJanelaExibirProduto = new ExibirProdutoJanela();
             novaJanelaExibirProduto.setVisible(true);
             mJdp.add(novaJanelaExibirProduto);
@@ -333,6 +449,52 @@ public class JanelaPrincipal extends JFrame {
                 }
             });
 
+            novaJanelaExibirProduto.setoresLista.addListSelectionListener(new ListSelectionListener() {
+                @Override
+                public void valueChanged(ListSelectionEvent arg0) {
+                    if (!arg0.getValueIsAdjusting()) {
+                        if (novaJanelaExibirProduto.modeloTabela.getRowCount() > 0) {
+                            novaJanelaExibirProduto.modeloTabela.limpaTabela();
+                        }
+                        novaJanelaExibirProduto.currentSetor = novaJanelaExibirProduto.setoresLista.getSelectedValue();
+                        novaJanelaExibirProduto.loadProdutos(novaJanelaExibirProduto.setoresLista.getSelectedValue());
+                    }
+                }
+            });
+
+            novaJanelaExibirProduto.botaoExcluir.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent ae) {
+                    if (novaJanelaExibirProduto.isRowSelected()) {
+                        int op = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja deletar o produto?", "Deletar Produto", JOptionPane.YES_NO_OPTION);
+                        if (op == JOptionPane.YES_OPTION) {
+                            int linha = novaJanelaExibirProduto.tabelaProdutos.getSelectedRow();
+                            Produto p = novaJanelaExibirProduto.modeloTabela.get(linha);
+                            novaJanelaExibirProduto.removeProdutoBanco(p.getId());
+                            novaJanelaExibirProduto.modeloTabela.removeRow(linha);
+                        }
+                    } else {
+                        mostraMensagemErro("Verifique se há um produto selecionado e se há somente um produto selecionado", "Não foi Possível Deletar");
+                    }
+                }
+            });
+
+            novaJanelaExibirProduto.botaoLimparTabela.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent ae) {
+                    if (novaJanelaExibirProduto.currentSetor != null) {
+
+                        int op = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja limpar a tabela do setor " + novaJanelaExibirProduto.currentSetor + "?", "Limpar Lista de Produtos", JOptionPane.YES_NO_OPTION);
+                        if (op == JOptionPane.YES_OPTION) {
+                            novaJanelaExibirProduto.modeloTabela.limpaTabela();
+                            novaJanelaExibirProduto.limpaSetor(novaJanelaExibirProduto.currentSetor);
+                        }
+                    } else {
+                        mostraMensagemErro("Nenhum setor foi selecionado, selecione um setor.", "Nenhum Setor Selecionado");
+                    }
+                }
+            });
+
         }
     }
 
@@ -343,11 +505,24 @@ public class JanelaPrincipal extends JFrame {
         mJdp.add(loginJanela);
         visibilidadeComponentes(false);
 
-    }
+        loginJanela.entrar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                if (loginJanela.usuarioTf.getText().length() > 0 && loginJanela.senhaTf.getText().length() > 0) {
+                    Usuarios user = new Usuarios(loginJanela.usuarioTf.getText(), loginJanela.senhaTf.getText());
+                    System.out.println(user.getSenha());
+                    if (loginJanela.verificaUser(user)) {
+                        loginJanela.setVisible(false);
+                        visibilidadeComponentes(true);
+                    } else {
+                        mostraMensagemErro("Usuário ou senha inválidos", "Erro ao conectar-se");
+                    }
+                } else {
+                    mostraMensagemErro("Não é possível conectar-se sem um usuário e uma senha", "Conexão inválida");
+                }
+            }
+        });
 
-    public static void auxLogin() {
-        loginJanela.setVisible(false);
-        visibilidadeComponentes(true);
     }
 
     private void sair() {

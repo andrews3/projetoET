@@ -7,8 +7,6 @@ package projetoet;
 
 import java.awt.Container;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -57,8 +55,8 @@ public class CadastroProdutoJanela extends JInternalFrame {
             System.out.println("Erro ao carregar o driver JDBC. ");
         } catch (SQLException e) {
             System.out.println("Erro de SQL: " + e.getErrorCode());
-            if(e.getErrorCode()==-5501){
-                mostraMensagemErro("O caminho do Banco de Dados está errado","Erro Banco de Dados");
+            if (e.getErrorCode() == -5501) {
+                mostraMensagemErro("O caminho do Banco de Dados está errado", "Erro Banco de Dados");
             }
         }
 
@@ -109,7 +107,7 @@ public class CadastroProdutoJanela extends JInternalFrame {
 
     }
 
-    private void insereProdutos(Produto produto) throws SQLException {
+    public void insereProdutos(Produto produto) throws SQLException {
         try {
             Class.forName("org.hsqldb.jdbcDriver");
             Connection con;
@@ -138,7 +136,7 @@ public class CadastroProdutoJanela extends JInternalFrame {
         JOptionPane.showMessageDialog(null, m, t, JOptionPane.INFORMATION_MESSAGE);
     }
 
-    private boolean verificaCodigo() {
+    public boolean verificaCodigo() {
         String cod = codTf.getText();
         boolean resposta = true;
         ArrayList<Character> arrayCod = new ArrayList();
@@ -172,32 +170,8 @@ public class CadastroProdutoJanela extends JInternalFrame {
             Logger.getLogger(CadastroProdutoJanela.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        adicionarBotao.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-
-                if (codTf.getText().length() >= 1) {
-                    if (verificaCodigo()) {
-                        String nomeProduto = nomeTf.getText();
-                        int codProduto = Integer.parseInt(codTf.getText());
-                        String setorProduto = setorCb.getSelectedItem().toString();
-                        Produto produto = new Produto(nomeProduto, codProduto, setorProduto);
-                        try {
-                            insereProdutos(produto);
-                        } catch (SQLException ex) {
-                            Logger.getLogger(CadastroProdutoJanela.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    } else {
-                        mostraMensagemErro("O Código não pode possuir letras, somente números", "Caracteres Inválidos");
-                    }
-                } else {
-                    mostraMensagemErro("Não é possível cadastrar um produto sem um código", "Código Inválido");
-                }
-            }
-        });
-        
         this.setSize(400, 240);
-        this.setLocation((1280/2)-(400/2), (700/2)-(240/2));
+        this.setLocation((1280 / 2) - (400 / 2), (700 / 2) - (240 / 2));
         this.setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
 
     }

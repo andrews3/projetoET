@@ -6,15 +6,11 @@
 package projetoet;
 
 import java.awt.Container;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
@@ -23,7 +19,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 import projetoet.util.Setor;
 import projetoet.util.SetorTableModel;
@@ -47,7 +42,7 @@ public class CadastroSetorJanela extends JInternalFrame {
 
     }
 
-    private ArrayList<Setor> loadSetores() throws SQLException {
+    public ArrayList<Setor> loadSetores() throws SQLException {
         setores = new ArrayList();
         try {
             Class.forName("org.hsqldb.jdbcDriver");
@@ -107,7 +102,7 @@ public class CadastroSetorJanela extends JInternalFrame {
 
     }
 
-    private boolean cadastraSetor() {
+    public boolean cadastraSetor() {
         String nomeSetor = nomeTf.getText();
         if (nomeSetor.length() > 0) {
             try {
@@ -130,13 +125,13 @@ public class CadastroSetorJanela extends JInternalFrame {
         return false;
     }
 
-    private void populaTabela() {
+    public void populaTabela() {
         for (Setor setor : setores) {
             model.addRow(setor);
         }
     }
 
-    private void removeSetorBanco(int id) {
+    public void removeSetorBanco(int id) {
         try {
             Class.forName("org.hsqldb.jdbcDriver");
             Connection con;
@@ -154,7 +149,7 @@ public class CadastroSetorJanela extends JInternalFrame {
     }
 
     //Verifica se há alguma linha selecionada e verifica se há somente uma selecioanda
-    private boolean isRowSelected() {
+    public boolean isRowSelected() {
         boolean b = false;
         for (int i = 0; i < model.getRowCount(); i++) {
             if (tabelaSetores.isRowSelected(i)) {
@@ -174,44 +169,6 @@ public class CadastroSetorJanela extends JInternalFrame {
         setores = loadSetores();
         insereComponentes();
         populaTabela();
-
-        botaoSalvar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                boolean bCadastro = cadastraSetor();
-                if (bCadastro) {
-                    try {
-                        loadSetores();
-                    } catch (SQLException ex) {
-                        Logger.getLogger(CadastroSetorJanela.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    //model = new SetorTableModel();
-                    //tabelaSetores.setModel(model);
-                    model.removeAll();
-                    populaTabela();
-                }
-            }
-        });
-
-        botaoDeletar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                UIManager.put("OptionPane.noButtonText", "Não");
-                UIManager.put("OptionPane.yesButtonText", "Sim");
-                if (isRowSelected()) {
-                    int op = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja deletar o setor?", "Deletar Setor", JOptionPane.YES_NO_OPTION);
-                    if (op == JOptionPane.YES_OPTION) {
-                        int linha = tabelaSetores.getSelectedRow();
-                        Setor s = model.get(linha);
-                        removeSetorBanco(s.getId());
-                        model.removeRow(linha);
-                    }
-                } else {
-                    mostraMensagemErro("Verifique se há um setor selecionado e se há somente um setor selecionado", "Não foi possível deletar");
-                }
-
-            }
-        });
 
         this.setLayout(null);
         this.setSize(350, 450);

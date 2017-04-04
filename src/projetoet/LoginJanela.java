@@ -7,8 +7,6 @@ package projetoet;
 
 import java.awt.Container;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -94,7 +92,7 @@ public class LoginJanela extends JInternalFrame {
         }
     }
 
-    private boolean verificaUser(Usuarios u) {
+    public boolean verificaUser(Usuarios u) {
         boolean b = false;
         for (Usuarios x : usuarios) {
             if (u.getNome().equals(x.getNome()) && u.getSenha().equals(x.getSenha())) {
@@ -112,24 +110,6 @@ public class LoginJanela extends JInternalFrame {
         insereComponentes();
         loadUsuarios();
 
-        entrar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                if (usuarioTf.getText().length() > 0 && senhaTf.getText().length() > 0) {
-                    Usuarios user = new Usuarios(usuarioTf.getText(), senhaTf.getText());
-                    System.out.println(user.getSenha());
-                    if (verificaUser(user)) {
-                        JanelaPrincipal.auxLogin();
-                    } else {
-                        mostraMensagemErro("Usuário ou senha inválidos", "Erro ao conectar-se");
-                    }
-                } else {
-                    mostraMensagemErro("Não é possível conectar-se sem um usuário e uma senha", "Conexão inválida");
-                }
-            }
-        });
-
-        
         URL url = this.getClass().getClassLoader().getResource("imagens/shield2.png");
         ImageIcon imagemTitulo = new ImageIcon(url);
         this.setFrameIcon(imagemTitulo);

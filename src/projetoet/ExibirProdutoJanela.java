@@ -6,8 +6,6 @@
 package projetoet;
 
 import java.awt.Container;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -24,8 +22,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import projetoet.util.Produto;
 import projetoet.util.ProdutoTableModel;
 import projetoet.util.Setor;
@@ -107,7 +103,7 @@ public class ExibirProdutoJanela extends JInternalFrame {
         }
     }
 
-    private void loadProdutos(String setor) {
+    public void loadProdutos(String setor) {
         produtos = new ArrayList();
         try {
             Class.forName("org.hsqldb.jdbcDriver");
@@ -135,7 +131,7 @@ public class ExibirProdutoJanela extends JInternalFrame {
         }
     }
 
-    private boolean isRowSelected() {
+    public boolean isRowSelected() {
         boolean b = false;
         for (int i = 0; i < modeloTabela.getRowCount(); i++) {
             if (tabelaProdutos.isRowSelected(i)) {
@@ -149,7 +145,7 @@ public class ExibirProdutoJanela extends JInternalFrame {
         return b;
     }
 
-    private void removeProdutoBanco(int id) {
+    public void removeProdutoBanco(int id) {
         try {
             Class.forName("org.hsqldb.jdbcDriver");
             Connection con;
@@ -165,7 +161,7 @@ public class ExibirProdutoJanela extends JInternalFrame {
         }
     }
 
-    private void limpaSetor(String setor) {
+    public void limpaSetor(String setor) {
         try {
             Class.forName("org.hsqldb.jdbcDriver");
             Connection con;
@@ -191,52 +187,6 @@ public class ExibirProdutoJanela extends JInternalFrame {
         } catch (SQLException ex) {
             Logger.getLogger(ExibirProdutoJanela.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        setoresLista.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent arg0) {
-                if (!arg0.getValueIsAdjusting()) {
-                    if (modeloTabela.getRowCount() > 0) {
-                        modeloTabela.limpaTabela();
-                    }
-                    currentSetor = setoresLista.getSelectedValue();
-                    System.out.println(currentSetor);
-                    loadProdutos(setoresLista.getSelectedValue());
-                }
-            }
-        });
-
-        botaoExcluir.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                if (isRowSelected()) {
-                    int op = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja deletar o produto?", "Deletar Produto", JOptionPane.YES_NO_OPTION);
-                    if (op == JOptionPane.YES_OPTION) {
-                        int linha = tabelaProdutos.getSelectedRow();
-                        Produto p = modeloTabela.get(linha);
-                        removeProdutoBanco(p.getId());
-                        modeloTabela.removeRow(linha);
-                    }
-                } else {
-                    mostraMensagemErro("Verifique se há um produto selecionado e se há somente um produto selecionado", "Não foi Possível Deletar");
-                }
-            }
-        });
-        botaoLimparTabela.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                if (currentSetor != null) {
-
-                    int op = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja limpar a tabela do setor " + currentSetor + "?", "Limpar Lista de Produtos", JOptionPane.YES_NO_OPTION);
-                    if (op == JOptionPane.YES_OPTION) {
-                        modeloTabela.limpaTabela();
-                        limpaSetor(currentSetor);
-                    }
-                }else{
-                    mostraMensagemErro("Nenhum setor foi selecionado, selecione um setor.","Nenhum Setor Selecionado");
-                }
-            }
-        });
 
         this.setLayout(null);
         this.setSize(750, 450);

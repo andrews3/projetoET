@@ -7,13 +7,9 @@ package projetoet;
 
 import java.awt.Container;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.JButton;
-import javax.swing.JFileChooser;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 /**
@@ -54,53 +50,6 @@ public class SelecaoBancoJanela extends JInternalFrame {
         c = this.getContentPane();
         insereComponentes();
         caminhoBancoTf.setText(JanelaPrincipal.parteCaminhoBanco);
-
-        botaoProcuraCaminho.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                JFileChooser fc = new JFileChooser();
-
-                fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-                fc.showOpenDialog(c);
-                caminhoArquivo = fc.getSelectedFile().getAbsolutePath();
-                caminhoBancoTf.setText(caminhoArquivo);
-            }
-        });
-
-        botaoSalvarCaminho.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                int op = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja salvar esse caminho para o banco de dados? Caso "
-                        + "o caminho esteja errado,\ntoda a aplicação deixará de funcionar.", "Salvar Banco de Dados", JOptionPane.YES_NO_OPTION);
-                if (op == JOptionPane.YES_OPTION) {
-                    if (caminhoArquivo.length() > 2) {
-                        if (caminhoArquivo.charAt(0) == 'C') {
-                            int maximoArray = caminhoArquivo.length() - 2;
-                            caminhoArquivoFinal = new char[maximoArray];
-                            int y = 0;
-                            for (int i = 2; i < caminhoArquivo.length(); i++) {
-                                if (caminhoArquivo.charAt(i) == '\\') {
-                                    caminhoArquivoFinal[y] = '/';
-                                } else {
-                                    caminhoArquivoFinal[y] = caminhoArquivo.charAt(i);
-                                }
-                                y++;
-                            }
-
-                            String l = "";
-                            for (int i = 0; i < caminhoArquivoFinal.length; i++) {
-                                l = l + caminhoArquivoFinal[i];
-                            }
-                            JanelaPrincipal.parteCaminhoBanco = l + "/";
-                        } else {
-                            JOptionPane.showMessageDialog(null, "Não é possível selecionar o banco de dados de fora da raiz C:", "Caminho Inválido", JOptionPane.ERROR_MESSAGE);
-                        }
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Caminho do Banco não alterado.", "Caminho Inalterado", JOptionPane.ERROR_MESSAGE);
-                    }
-                }
-            }
-        });
 
         this.setLayout(null);
         this.setSize(450, 178);
