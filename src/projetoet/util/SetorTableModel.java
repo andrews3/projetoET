@@ -35,7 +35,7 @@ public class SetorTableModel extends AbstractTableModel {
                 Setor s = dados.get(linha);
                 atualizaBanco(s);
                 }catch(IndexOutOfBoundsException ie){
-                    System.out.println("Não é um erro de verdade");
+                    //System.out.println("Não é um erro de verdade");
                 }
                 
 
@@ -48,7 +48,7 @@ public class SetorTableModel extends AbstractTableModel {
         try {
             Class.forName("org.hsqldb.jdbcDriver");
             Connection con;
-            con = DriverManager.getConnection(JanelaPrincipal.caminhoBanco, "sa", "");
+            con = DriverManager.getConnection(JanelaPrincipal.getCaminhoBanco(), "sa", "");
             java.sql.Statement stm = con.createStatement();
             stm.executeQuery("UPDATE SETORES SET nomeSetor = '" + s.getNomeSetor() + "' Where idsetor='" + s.getId() + "'");
             stm.execute("SHUTDOWN");
@@ -97,7 +97,7 @@ public class SetorTableModel extends AbstractTableModel {
     }
 
     public void removeAll() {
-        
+        dados = new ArrayList();
     }
 
     public Setor get(int linha) {

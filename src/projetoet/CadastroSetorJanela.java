@@ -52,7 +52,7 @@ public class CadastroSetorJanela extends JInternalFrame {
         try {
             Class.forName("org.hsqldb.jdbcDriver");
             Connection con;
-            con = DriverManager.getConnection(JanelaPrincipal.caminhoBanco, "sa", "");
+            con = DriverManager.getConnection(JanelaPrincipal.getCaminhoBanco(), "sa", "");
             java.sql.Statement stm = con.createStatement();
             ResultSet rs = stm.executeQuery("SELECT * FROM SETORES");
             while (rs.next()) {
@@ -77,7 +77,7 @@ public class CadastroSetorJanela extends JInternalFrame {
     private void insereComponentes() {
         model = new SetorTableModel();
         tabelaSetores = new JTable(model);
-        populaTabela();
+        
         JScrollPane p = new JScrollPane(tabelaSetores);
         p.setBounds(5, 150, 331, 215);
         p.createVerticalScrollBar();
@@ -113,7 +113,7 @@ public class CadastroSetorJanela extends JInternalFrame {
             try {
                 Class.forName("org.hsqldb.jdbcDriver");
                 Connection con;
-                con = DriverManager.getConnection(JanelaPrincipal.caminhoBanco, "sa", "");
+                con = DriverManager.getConnection(JanelaPrincipal.getCaminhoBanco(), "sa", "");
                 java.sql.Statement stm = con.createStatement();
                 stm.executeQuery("INSERT INTO SETORES (NOMESETOR) VALUES('" + nomeSetor + "')");
                 stm.execute("SHUTDOWN");
@@ -140,7 +140,7 @@ public class CadastroSetorJanela extends JInternalFrame {
         try {
             Class.forName("org.hsqldb.jdbcDriver");
             Connection con;
-            con = DriverManager.getConnection(JanelaPrincipal.caminhoBanco, "sa", "");
+            con = DriverManager.getConnection(JanelaPrincipal.getCaminhoBanco(), "sa", "");
             java.sql.Statement stm = con.createStatement();
             stm.executeQuery("DELETE FROM SETORES Where idsetor='" + id + "'");
             stm.execute("SHUTDOWN");
@@ -173,6 +173,7 @@ public class CadastroSetorJanela extends JInternalFrame {
         c = this.getContentPane();
         setores = loadSetores();
         insereComponentes();
+        populaTabela();
 
         botaoSalvar.addActionListener(new ActionListener() {
             @Override
@@ -184,8 +185,9 @@ public class CadastroSetorJanela extends JInternalFrame {
                     } catch (SQLException ex) {
                         Logger.getLogger(CadastroSetorJanela.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    model = new SetorTableModel();
-                    tabelaSetores.setModel(model);
+                    //model = new SetorTableModel();
+                    //tabelaSetores.setModel(model);
+                    model.removeAll();
                     populaTabela();
                 }
             }
@@ -194,11 +196,10 @@ public class CadastroSetorJanela extends JInternalFrame {
         botaoDeletar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                UIManager.put("OptionPane.cancelButtonText", "");
                 UIManager.put("OptionPane.noButtonText", "Não");
                 UIManager.put("OptionPane.yesButtonText", "Sim");
                 if (isRowSelected()) {
-                    int op = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja deletar o setor?", "Deletar Produto", JOptionPane.YES_NO_OPTION);
+                    int op = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja deletar o setor?", "Deletar Setor", JOptionPane.YES_NO_OPTION);
                     if (op == JOptionPane.YES_OPTION) {
                         int linha = tabelaSetores.getSelectedRow();
                         Setor s = model.get(linha);

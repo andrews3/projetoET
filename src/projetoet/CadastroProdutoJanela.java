@@ -43,7 +43,7 @@ public class CadastroProdutoJanela extends JInternalFrame {
         try {
             Class.forName("org.hsqldb.jdbcDriver");
             Connection con;
-            con = DriverManager.getConnection(JanelaPrincipal.caminhoBanco, "sa", "");
+            con = DriverManager.getConnection(JanelaPrincipal.getCaminhoBanco(), "sa", "");
             java.sql.Statement stm = con.createStatement();
             ResultSet rs = stm.executeQuery("SELECT * FROM SETORES");
             while (rs.next()) {
@@ -113,7 +113,7 @@ public class CadastroProdutoJanela extends JInternalFrame {
         try {
             Class.forName("org.hsqldb.jdbcDriver");
             Connection con;
-            con = DriverManager.getConnection(JanelaPrincipal.caminhoBanco, "sa", "");
+            con = DriverManager.getConnection(JanelaPrincipal.getCaminhoBanco(), "sa", "");
             java.sql.Statement stm = con.createStatement();
             stm.executeQuery("INSERT INTO PRODUTOS(NOMEPRODUTO,CODPRODUTO,SETORPRODUTO) VALUES('" + produto.getNome() + "','" + produto.getId() + "','" + produto.getSetor() + "')");
             stm.execute("SHUTDOWN");
