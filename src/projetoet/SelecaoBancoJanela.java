@@ -7,6 +7,8 @@ package projetoet;
 
 import java.awt.Container;
 import java.awt.Font;
+import java.net.URL;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
@@ -51,6 +53,9 @@ public class SelecaoBancoJanela extends JInternalFrame {
         insereComponentes();
         caminhoBancoTf.setText(JanelaPrincipal.parteCaminhoBanco);
 
+        URL url = this.getClass().getClassLoader().getResource("imagens/shield2.png");
+        ImageIcon imagemTitulo = new ImageIcon(url);
+        this.setFrameIcon(imagemTitulo);
         this.setLayout(null);
         this.setSize(450, 178);
         this.setLocation((1280 / 2) - (450 / 2), (700 / 2) - (300 / 2));

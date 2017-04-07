@@ -356,12 +356,14 @@ public class JanelaPrincipal extends JFrame {
             novaJanelaSelecaoBanco.botaoProcuraCaminho.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent ae) {
-                    JFileChooser fc = new JFileChooser();
-
-                    fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-                    fc.showOpenDialog(c);
-                    novaJanelaSelecaoBanco.caminhoArquivo = fc.getSelectedFile().getAbsolutePath();
-                    novaJanelaSelecaoBanco.caminhoBancoTf.setText(novaJanelaSelecaoBanco.caminhoArquivo);
+                    try {
+                        JFileChooser fc = new JFileChooser();
+                        fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+                        fc.showOpenDialog(c);
+                        novaJanelaSelecaoBanco.caminhoArquivo = fc.getSelectedFile().getAbsolutePath();
+                        novaJanelaSelecaoBanco.caminhoBancoTf.setText(novaJanelaSelecaoBanco.caminhoArquivo);
+                    } catch (NullPointerException ie) {
+                    }
                 }
             });
             novaJanelaSelecaoBanco.botaoSalvarCaminho.addActionListener(new ActionListener() {
@@ -389,11 +391,15 @@ public class JanelaPrincipal extends JFrame {
                                     l = l + novaJanelaSelecaoBanco.caminhoArquivoFinal[i];
                                 }
                                 parteCaminhoBanco = l + "/";
+                                bJanelaSelecaoBanco = false;
+                                novaJanelaSelecaoBanco.setVisible(false);
                             } else {
                                 JOptionPane.showMessageDialog(null, "Não é possível selecionar o banco de dados de fora da raiz C:", "Caminho Inválido", JOptionPane.ERROR_MESSAGE);
                             }
                         } else {
                             JOptionPane.showMessageDialog(null, "Caminho do Banco não alterado.", "Caminho Inalterado", JOptionPane.ERROR_MESSAGE);
+                            bJanelaSelecaoBanco = false;
+                            novaJanelaSelecaoBanco.setVisible(false);
                         }
                     }
                 }

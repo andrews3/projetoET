@@ -6,11 +6,13 @@
 package projetoet;
 
 import java.awt.Container;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
@@ -72,7 +74,7 @@ public class CadastroSetorJanela extends JInternalFrame {
     private void insereComponentes() {
         model = new SetorTableModel();
         tabelaSetores = new JTable(model);
-        
+
         JScrollPane p = new JScrollPane(tabelaSetores);
         p.setBounds(5, 150, 331, 215);
         p.createVerticalScrollBar();
@@ -170,6 +172,9 @@ public class CadastroSetorJanela extends JInternalFrame {
         insereComponentes();
         populaTabela();
 
+        URL url = this.getClass().getClassLoader().getResource("imagens/shield2.png");
+        ImageIcon imagemTitulo = new ImageIcon(url);
+        this.setFrameIcon(imagemTitulo);
         this.setLayout(null);
         this.setSize(350, 450);
         this.setLocation((1280 / 2) - (400 / 2), (700 / 2) - (300 / 2));

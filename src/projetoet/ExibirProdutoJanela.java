@@ -6,6 +6,7 @@
 package projetoet;
 
 import java.awt.Container;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
@@ -188,6 +190,9 @@ public class ExibirProdutoJanela extends JInternalFrame {
             Logger.getLogger(ExibirProdutoJanela.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+        URL url = this.getClass().getClassLoader().getResource("imagens/shield2.png");
+        ImageIcon imagemTitulo = new ImageIcon(url);
+        this.setFrameIcon(imagemTitulo);
         this.setLayout(null);
         this.setSize(750, 450);
         this.setLocation((1280 / 2) - (750 / 2), (700 / 2) - (450 / 2));

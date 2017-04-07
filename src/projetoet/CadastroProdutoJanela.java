@@ -7,6 +7,7 @@ package projetoet;
 
 import java.awt.Container;
 import java.awt.Font;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -15,6 +16,7 @@ import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JInternalFrame;
@@ -170,6 +172,9 @@ public class CadastroProdutoJanela extends JInternalFrame {
             Logger.getLogger(CadastroProdutoJanela.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+        URL url = this.getClass().getClassLoader().getResource("imagens/shield2.png");
+        ImageIcon imagemTitulo = new ImageIcon(url);
+        this.setFrameIcon(imagemTitulo);
         this.setSize(400, 240);
         this.setLocation((1280 / 2) - (400 / 2), (700 / 2) - (240 / 2));
         this.setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
