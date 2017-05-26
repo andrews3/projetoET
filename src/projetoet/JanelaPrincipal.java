@@ -7,7 +7,9 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -29,8 +31,10 @@ import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import projetoet.util.ECLogger;
 import projetoet.util.Produto;
 import projetoet.util.Setor;
+import projetoet.util.UsuarioRepositorio;
 import projetoet.util.Usuarios;
 
 /**
@@ -40,7 +44,7 @@ import projetoet.util.Usuarios;
 public class JanelaPrincipal extends JFrame {
 
     //// Professor, para testar o software altere o parteCaminhoBanco////
-    public static String parteCaminhoBanco = "/Users/Andrews-PC/Documents/NetBeansProjects/projetoET/db/banco/";
+    public static String parteCaminhoBanco = "/Users/Andrews-PC/Documents/NetBeansProjects/projetoET/db/banco";
     public static String caminhoBanco = "jdbc:hsqldb:file:";
     ///////////
 
@@ -146,11 +150,12 @@ public class JanelaPrincipal extends JFrame {
 
     }
 
-    private void iniciaCadastroProdutos() {
+    private void iniciaCadastroProdutos() throws IOException {
         if (!bJanelaCadastroProduto) {
             novaJanelaCadastroProduto = new CadastroProdutoJanela();
             novaJanelaCadastroProduto.setVisible(true);
             mJdp.add(novaJanelaCadastroProduto);
+            ECLogger.insereLog("Usuário " + UsuarioRepositorio.getUsuarioConec().getNome() + " abriu a janela de cadastro de produtos;");
             bJanelaCadastroProduto = true;
             try {
                 novaJanelaCadastroProduto.setSelected(true);
@@ -161,6 +166,11 @@ public class JanelaPrincipal extends JFrame {
                 @Override
                 public void internalFrameClosing(InternalFrameEvent ife) {
                     bJanelaCadastroProduto = false;
+                    try {
+                        ECLogger.insereLog("Usuário " + UsuarioRepositorio.getUsuarioConec().getNome() + " fechou a janela de cadastro de produtos;");
+                    } catch (IOException ex) {
+                        Logger.getLogger(JanelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
 
                 @Override
@@ -204,8 +214,13 @@ public class JanelaPrincipal extends JFrame {
                             Produto produto = new Produto(nomeProduto, codProduto, setorProduto);
                             try {
                                 novaJanelaCadastroProduto.insereProdutos(produto);
+                                ECLogger.insereLog("Usuário " + UsuarioRepositorio.getUsuarioConec().getNome() + " cadastrou o produto " + produto.getNome()
+                                        + " no setor " + produto.getSetor() + ";");
                             } catch (SQLException ex) {
                                 Logger.getLogger(CadastroProdutoJanela.class.getName()).log(Level.SEVERE, null, ex);
+
+                            } catch (IOException ex) {
+                                Logger.getLogger(JanelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
                             }
                         } else {
                             mostraMensagemErro("O Código não pode possuir letras, somente números", "Caracteres Inválidos");
@@ -219,10 +234,11 @@ public class JanelaPrincipal extends JFrame {
 
     }
 
-    private void iniciaCadastroSetores() throws SQLException {
+    private void iniciaCadastroSetores() throws SQLException, IOException {
         if (!bJanelaCadastroSetor) {
             novaJanelaCadastroSetor = new CadastroSetorJanela();
             novaJanelaCadastroSetor.setVisible(true);
+            ECLogger.insereLog("Usuário " + UsuarioRepositorio.getUsuarioConec().getNome() + " abriu a janela de cadastro de setores;");
             mJdp.add(novaJanelaCadastroSetor);
             bJanelaCadastroSetor = true;
             try {
@@ -234,6 +250,11 @@ public class JanelaPrincipal extends JFrame {
                 @Override
                 public void internalFrameClosing(InternalFrameEvent ife) {
                     bJanelaCadastroSetor = false;
+                    try {
+                        ECLogger.insereLog("Usuário " + UsuarioRepositorio.getUsuarioConec().getNome() + " fechou a janela de cadastro de setores;");
+                    } catch (IOException ex) {
+                        Logger.getLogger(JanelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
 
                 @Override
@@ -293,6 +314,12 @@ public class JanelaPrincipal extends JFrame {
                             int linha = novaJanelaCadastroSetor.tabelaSetores.getSelectedRow();
                             Setor s = novaJanelaCadastroSetor.model.get(linha);
                             novaJanelaCadastroSetor.removeSetorBanco(s.getId());
+                            try {
+                                ECLogger.insereLog("Usuário " + UsuarioRepositorio.getUsuarioConec().getNome() + " deletou o setor " + s.getNomeSetor() + ";");
+                            } catch (IOException ex) {
+                                Logger.getLogger(JanelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+
                             novaJanelaCadastroSetor.model.removeRow(linha);
                         }
                     } else {
@@ -305,13 +332,14 @@ public class JanelaPrincipal extends JFrame {
         }
     }
 
-    private void iniciaSelecaoBanco() {
+    private void iniciaSelecaoBanco() throws IOException {
         if (!bJanelaSelecaoBanco) {
 
             novaJanelaSelecaoBanco = new SelecaoBancoJanela();
             novaJanelaSelecaoBanco.setVisible(true);
             mJdp.add(novaJanelaSelecaoBanco);
             bJanelaSelecaoBanco = true;
+            ECLogger.insereLog("Usuário " + UsuarioRepositorio.getUsuarioConec().getNome() + " abriu a janela de alteração do caminho do banco de dados;");
             try {
                 novaJanelaSelecaoBanco.setSelected(true);
             } catch (java.beans.PropertyVetoException e) {
@@ -321,6 +349,11 @@ public class JanelaPrincipal extends JFrame {
                 @Override
                 public void internalFrameClosing(InternalFrameEvent ife) {
                     bJanelaSelecaoBanco = false;
+                    try {
+                        ECLogger.insereLog("Usuário " + UsuarioRepositorio.getUsuarioConec().getNome() + " fechou a janela de alteração do caminho do banco de dados");
+                    } catch (IOException ex) {
+                        Logger.getLogger(JanelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
 
                 @Override
@@ -363,6 +396,11 @@ public class JanelaPrincipal extends JFrame {
                         novaJanelaSelecaoBanco.caminhoArquivo = fc.getSelectedFile().getAbsolutePath();
                         novaJanelaSelecaoBanco.caminhoBancoTf.setText(novaJanelaSelecaoBanco.caminhoArquivo);
                     } catch (NullPointerException ie) {
+                        try {
+                            ECLogger.insereLogException(ie);
+                        } catch (IOException ex) {
+                            Logger.getLogger(JanelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
                 }
             });
@@ -391,14 +429,29 @@ public class JanelaPrincipal extends JFrame {
                                     l = l + novaJanelaSelecaoBanco.caminhoArquivoFinal[i];
                                 }
                                 parteCaminhoBanco = l + "/";
+                                try {
+                                    ECLogger.insereLog("Usuário " + UsuarioRepositorio.getUsuarioConec().getNome() + " alterou o caminho do banco de dados;");
+                                } catch (IOException ex) {
+                                    Logger.getLogger(JanelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                                }
                                 bJanelaSelecaoBanco = false;
                                 novaJanelaSelecaoBanco.setVisible(false);
                             } else {
                                 JOptionPane.showMessageDialog(null, "Não é possível selecionar o banco de dados de fora da raiz C:", "Caminho Inválido", JOptionPane.ERROR_MESSAGE);
+                                try {
+                                    ECLogger.insereLog("Usuário " + UsuarioRepositorio.getUsuarioConec().getNome() + " tentou alterar o caminho do banco de dados fora da raiz C:;");
+                                } catch (IOException ex) {
+                                    Logger.getLogger(JanelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                                }
                             }
                         } else {
                             JOptionPane.showMessageDialog(null, "Caminho do Banco não alterado.", "Caminho Inalterado", JOptionPane.ERROR_MESSAGE);
                             bJanelaSelecaoBanco = false;
+                            try {
+                                ECLogger.insereLog("Usuário " + UsuarioRepositorio.getUsuarioConec().getNome() + " tentou salvar o caminho do banco de dados com tamanho menor que 2;");
+                            } catch (IOException ex) {
+                                Logger.getLogger(JanelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                            }
                             novaJanelaSelecaoBanco.setVisible(false);
                         }
                     }
@@ -407,22 +460,28 @@ public class JanelaPrincipal extends JFrame {
         }
     }
 
-    private void iniciaExibirProdutos() {
+    private void iniciaExibirProdutos() throws IOException {
         if (!bJanelaExibirProdutos) {
-
             novaJanelaExibirProduto = new ExibirProdutoJanela();
             novaJanelaExibirProduto.setVisible(true);
             mJdp.add(novaJanelaExibirProduto);
             bJanelaExibirProdutos = true;
+            ECLogger.insereLog("Usuário " + UsuarioRepositorio.getUsuarioConec().getNome() + " abriu a janela de exibir produtos;");
             try {
                 novaJanelaExibirProduto.setSelected(true);
             } catch (java.beans.PropertyVetoException e) {
+                 ECLogger.insereLogException(e);
             }
             novaJanelaExibirProduto.addInternalFrameListener(new InternalFrameListener() {
 
                 @Override
                 public void internalFrameClosing(InternalFrameEvent ife) {
                     bJanelaExibirProdutos = false;
+                    try {
+                        ECLogger.insereLog("Usuário " + UsuarioRepositorio.getUsuarioConec().getNome() + " fechou a janela de exibir produtos;");
+                    } catch (IOException ex) {
+                        Logger.getLogger(JanelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);                       
+                    }
                 }
 
                 @Override
@@ -463,6 +522,11 @@ public class JanelaPrincipal extends JFrame {
                             novaJanelaExibirProduto.modeloTabela.limpaTabela();
                         }
                         novaJanelaExibirProduto.currentSetor = novaJanelaExibirProduto.setoresLista.getSelectedValue();
+                        try {
+                            ECLogger.insereLog("Usuário " + UsuarioRepositorio.getUsuarioConec().getNome() + " selecionou o setor " + novaJanelaExibirProduto.currentSetor + ";");
+                        } catch (IOException ex) {
+                            Logger.getLogger(JanelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                         novaJanelaExibirProduto.loadProdutos(novaJanelaExibirProduto.setoresLista.getSelectedValue());
                     }
                 }
@@ -476,6 +540,11 @@ public class JanelaPrincipal extends JFrame {
                         if (op == JOptionPane.YES_OPTION) {
                             int linha = novaJanelaExibirProduto.tabelaProdutos.getSelectedRow();
                             Produto p = novaJanelaExibirProduto.modeloTabela.get(linha);
+                            try {
+                                ECLogger.insereLog("Usuário " + UsuarioRepositorio.getUsuarioConec().getNome() + " deletou o produto " + p.getNome() + ";");
+                            } catch (IOException ex) {
+                                Logger.getLogger(JanelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                            }
                             novaJanelaExibirProduto.removeProdutoBanco(p.getId());
                             novaJanelaExibirProduto.modeloTabela.removeRow(linha);
                         }
@@ -490,9 +559,15 @@ public class JanelaPrincipal extends JFrame {
                 public void actionPerformed(ActionEvent ae) {
                     if (novaJanelaExibirProduto.currentSetor != null) {
 
-                        int op = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja limpar a tabela do setor " + novaJanelaExibirProduto.currentSetor + "?", "Limpar Lista de Produtos", JOptionPane.YES_NO_OPTION);
+                        int op = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja limpar a tabela do setor " + novaJanelaExibirProduto.currentSetor + "?",
+                                "Limpar Lista de Produtos", JOptionPane.YES_NO_OPTION);
                         if (op == JOptionPane.YES_OPTION) {
                             novaJanelaExibirProduto.modeloTabela.limpaTabela();
+                            try {
+                                ECLogger.insereLog("Usuário " + UsuarioRepositorio.getUsuarioConec().getNome() + " limpou a tabela de produtos;");
+                            } catch (IOException ex) {
+                                Logger.getLogger(JanelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                            }
                             novaJanelaExibirProduto.limpaSetor(novaJanelaExibirProduto.currentSetor);
                         }
                     } else {
@@ -504,7 +579,7 @@ public class JanelaPrincipal extends JFrame {
         }
     }
 
-    private void iniciaLogin() {
+    private void iniciaLogin() throws IOException {
         loginJanela = new LoginJanela();
         loginJanela.setVisible(true);
         loginJanela.toFront();
@@ -516,12 +591,15 @@ public class JanelaPrincipal extends JFrame {
             public void actionPerformed(ActionEvent ae) {
                 if (loginJanela.usuarioTf.getText().length() > 0 && loginJanela.senhaTf.getText().length() > 0) {
                     Usuarios user = new Usuarios(loginJanela.usuarioTf.getText(), loginJanela.senhaTf.getText());
-                    System.out.println(user.getSenha());
-                    if (loginJanela.verificaUser(user)) {
-                        loginJanela.setVisible(false);
-                        visibilidadeComponentes(true);
-                    } else {
-                        mostraMensagemErro("Usuário ou senha inválidos", "Erro ao conectar-se");
+                    try {
+                        if (loginJanela.verificaUser(user)) {
+                            loginJanela.setVisible(false);
+                            visibilidadeComponentes(true);
+                        } else {
+                            mostraMensagemErro("Usuário ou senha inválidos", "Erro ao conectar-se");
+                        }
+                    } catch (IOException ex) {
+                        Logger.getLogger(JanelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 } else {
                     mostraMensagemErro("Não é possível conectar-se sem um usuário e uma senha", "Conexão inválida");
@@ -531,10 +609,18 @@ public class JanelaPrincipal extends JFrame {
 
     }
 
-    private void sair() {
+    private void finalizaAplicacao() throws IOException {
+        if (UsuarioRepositorio.isConec()) {
+            ECLogger.insereLog(("Usuário " + UsuarioRepositorio.getUsuarioConec().getNome() + " desconectou-se;"), true);
+        }
+        UsuarioRepositorio.setConec(false);
+        this.dispose();
+    }
+
+    private void sair() throws IOException {
         int op = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja sair?", "Sair", JOptionPane.YES_NO_OPTION);
         if (op == JOptionPane.YES_OPTION) {
-            main.dispatchEvent(new WindowEvent(main, WindowEvent.WINDOW_CLOSING));
+            finalizaAplicacao();
         }
     }
 
@@ -550,7 +636,7 @@ public class JanelaPrincipal extends JFrame {
                 options[0]); //default button title
     }
 
-    public JanelaPrincipal() {
+    public JanelaPrincipal() throws IOException {
         super("Escudeiro das Compras");
         mJdp = new JDesktopPane();
         setContentPane(mJdp);
@@ -562,26 +648,42 @@ public class JanelaPrincipal extends JFrame {
         botaoCadastrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                iniciaCadastroProdutos();
+                try {
+                    iniciaCadastroProdutos();
+                } catch (IOException ex) {
+                    Logger.getLogger(JanelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
         botaoExibir.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                iniciaExibirProdutos();
+                try {
+                    iniciaExibirProdutos();
+                } catch (IOException ex) {
+                    Logger.getLogger(JanelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
         botaoSair.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                sair();
+                try {
+                    sair();
+                } catch (IOException ex) {
+                    Logger.getLogger(JanelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                }
 
             }
         });
         menuCadastroProduto.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                iniciaCadastroProdutos();
+                try {
+                    iniciaCadastroProdutos();
+                } catch (IOException ex) {
+                    Logger.getLogger(JanelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
         menuCadastroSetor.addActionListener(new ActionListener() {
@@ -589,48 +691,67 @@ public class JanelaPrincipal extends JFrame {
             public void actionPerformed(ActionEvent ae) {
                 try {
                     iniciaCadastroSetores();
-                } catch (SQLException ex) {
+                } catch (SQLException | IOException ex) {
                     Logger.getLogger(JanelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                    try {
+                        ECLogger.insereLogException(ex);
+                    } catch (IOException ex1) {
+                        Logger.getLogger(JanelaPrincipal.class.getName()).log(Level.SEVERE, null, ex1);
+                    }
                 }
-
             }
         });
         menuCadastroSair.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                sair();
+                try {
+                    sair();
+                } catch (IOException ex) {
+                    Logger.getLogger(JanelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
         menuExibirProdutos.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                iniciaExibirProdutos();
+                try {
+                    iniciaExibirProdutos();
+                } catch (IOException ex) {
+                    Logger.getLogger(JanelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
         menuOpcoesBanco.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                iniciaSelecaoBanco();
+                try {
+                    iniciaSelecaoBanco();
+                } catch (IOException ex) {
+                    Logger.getLogger(JanelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
 
         menuSobrePrograma.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                mostraMensagem("O Escudeiro das Compras", "O Escudeiro das Compras é uma aplicação Desktop como intuito de auxiliar\nos resposáveis de cada setor a repor produtos em falta.");
+                mostraMensagem("O Escudeiro das Compras", "O Escudeiro das Compras é uma aplicação Desktop como intuito de auxiliar\nos "
+                        + "resposáveis de cada setor a repor produtos em falta.");
             }
         });
 
         menuSobreDesenvolvedor.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                mostraMensagem("O Desenvolvedor", "A aplicação Escudeiro das Compras foi projetada pelo desenvolvedor Andrews Duarte\ne desenvolvida durante as aulas de Tópicos Especiais I, regidas pelo professor Gilberto Vieira.");
+                mostraMensagem("O Desenvolvedor", "A aplicação Escudeiro das Compras foi projetada pelo desenvolvedor "
+                        + "Andrews Duarte\ne desenvolvida durante as aulas de Tópicos Especiais I, regidas pelo professor Gilberto Vieira.");
             }
         });
         menuSobreBancoDados.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                mostraMensagem("Como Encontrar o Banco de Dados", "Para selecionar a pasta correta na hora de escolher o Banco de Dados, você deve entrar\nna pasta do programa e procurar pela pasta \"db\",  dentro desta pasta haverá a pasta \"banco\"\na qual deverá ser selecionada.");
+                mostraMensagem("Como Encontrar o Banco de Dados", "Para selecionar a pasta correta na hora de escolher o Banco de Dados, "
+                        + "você deve entrar\nna pasta do programa e procurar pela pasta \"db\",  dentro desta pasta haverá a pasta \"banco\"\na qual deverá ser selecionada.");
             }
         });
         this.setLayout(null);
@@ -643,9 +764,19 @@ public class JanelaPrincipal extends JFrame {
         this.setIconImage(imagemTitulo);
         iniciaLogin();
         loginJanela.toFront();
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                try {
+                    finalizaAplicacao();
+                } catch (IOException ex) {
+                    Logger.getLogger(JanelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         main = new JanelaPrincipal();
         main.setVisible(true);
     }

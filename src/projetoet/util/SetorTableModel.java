@@ -5,11 +5,14 @@
  */
 package projetoet.util;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
@@ -33,6 +36,11 @@ public class SetorTableModel extends AbstractTableModel {
                 int linha = tme.getFirstRow();
                 try{
                 Setor s = dados.get(linha);
+                    try {
+                        ECLogger.insereLog("Usuário " + UsuarioRepositorio.getUsuarioConec().getNome() + " alterou o nome de um setor para " + s.getNomeSetor() + ";");
+                    } catch (IOException ex) {
+                        Logger.getLogger(SetorTableModel.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 atualizaBanco(s);
                 }catch(IndexOutOfBoundsException ie){
                     //System.out.println("Não é um erro de verdade");

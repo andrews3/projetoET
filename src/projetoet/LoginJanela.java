@@ -7,12 +7,20 @@ package projetoet;
 
 import java.awt.Container;
 import java.awt.Font;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JInternalFrame;
@@ -20,6 +28,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import projetoet.util.ECLogger;
+import projetoet.util.UsuarioRepositorio;
 import projetoet.util.Usuarios;
 
 /**
@@ -64,7 +74,6 @@ public class LoginJanela extends JInternalFrame {
 
     private void mostraMensagemErro(String s, String i) {
         JOptionPane.showMessageDialog(null, s, i, JOptionPane.ERROR_MESSAGE);
-
     }
 
     private void loadUsuarios() {
@@ -92,23 +101,44 @@ public class LoginJanela extends JInternalFrame {
         }
     }
 
-    public boolean verificaUser(Usuarios u) {
-        boolean b = false;
+    public boolean verificaUser(Usuarios u) throws IOException {
         for (Usuarios x : usuarios) {
             if (u.getNome().equals(x.getNome()) && u.getSenha().equals(x.getSenha())) {
+                saveLastUser(u.getNome());
+                UsuarioRepositorio.setConec(true);
+                UsuarioRepositorio.setUsuarioConec(u);
+                ECLogger.insereLog("Usuário " + u.getNome() + " conectou-se;");
                 return true;
             }
         }
-
-        return b;
+        return false;
+    }
+    
+    private void loadLastUser() throws IOException{
+        try {
+            FileReader fileReader = new FileReader("LUC");
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            String luc = bufferedReader.readLine();
+            usuarioTf.setText(luc);
+        } catch (FileNotFoundException ex) {}
+    }
+    
+    private void saveLastUser(String login) throws IOException{
+        FileWriter fileWriter = new FileWriter("LUC");
+        try (BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
+            bufferedWriter.write(login);
+            bufferedWriter.flush();
+            bufferedWriter.close();
+        }
     }
 
-    public LoginJanela() {
+    public LoginJanela() throws IOException {
         super("Escudeiro das Compras", false, true, false, false);
         c = this.getContentPane();
 
         insereComponentes();
         loadUsuarios();
+        loadLastUser();
 
         URL url = this.getClass().getClassLoader().getResource("imagens/shield2.png");
         ImageIcon imagemTitulo = new ImageIcon(url);

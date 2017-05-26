@@ -1,0 +1,162 @@
+﻿2017/05/19 21:36:32 Usuário admin conectou-se;
+2017/05/19 21:36:36 Usuário admin abriu a janela de exibir produtos;
+2017/05/19 21:36:37 Usuário admin selecionou o setor Elétrico;
+2017/05/19 21:36:39 Usuário admin selecionou o setor Informática;
+2017/05/19 21:36:42 Usuário admin selecionou o setor Elétrico;
+2017/05/19 21:36:47 Usuário admin deletou o produto Difusor;
+2017/05/19 21:36:48 Usuário admin selecionou o setor Informática;
+2017/05/19 21:36:51 Usuário admin limpou a tabela de produtos;
+2017/05/19 21:36:53 Usuário admin fechou a janela de exibir produtos;
+2017/05/19 21:37:17 Usuário admin desconectou-se;
+
+2017/05/19 21:40:23 Usuário admin conectou-se;
+2017/05/19 21:40:25 Usuário admin abriu a janela de cadastro de produtos;
+2017/05/19 21:40:50 Usuário admin cadastrou o produto Tomada 3 pinos no setor Elétrico;
+2017/05/19 21:41:07 Usuário admin cadastrou o produto Teclado USB no setor Informática;
+2017/05/19 21:41:08 Usuário admin fechou a janela de cadastro de produtos;
+2017/05/19 21:41:09 Usuário admin abriu a janela de exibir produtos;
+2017/05/19 21:41:10 Usuário admin selecionou o setor Informática;
+2017/05/19 21:41:11 Usuário admin selecionou o setor Elétrico;
+2017/05/19 21:41:14 Usuário admin fechou a janela de exibir produtos;
+2017/05/19 21:41:16 Usuário admin desconectou-se;
+
+2017/05/19 21:43:54 Usuário admin conectou-se;
+2017/05/19 21:44:46 Usuário admin abriu a janela de exibir produtos;
+2017/05/19 21:45:14 Usuário admin fechou a janela de exibir produtos;
+2017/05/19 21:45:15 Usuário admin desconectou-se;
+
+2017/05/19 21:50:31 Usuário admin conectou-se;
+2017/05/19 21:50:33 Usuário admin abriu a janela de alteração do caminho do banco de dados;
+2017/05/19 21:50:52 Usuário admin tentou alterar o caminho do banco de dados fora da raiz C:;
+2017/05/19 21:51:00 Usuário admin alterou o caminho do banco de dados;
+2017/05/19 21:51:03 Usuário admin desconectou-se;
+2017/05/19 22:13:10 Usuário admin conectou-se;
+2017/05/19 22:13:20 Usuário admin abriu a janela de cadastro de produtos;
+2017/05/19 22:13:25 Usuário admin fechou a janela de cadastro de produtos;
+2017/05/19 22:13:51 Usuário admin desconectou-se;
+
+2017/05/19 22:14:02 Usuário admin conectou-se;
+2017/05/19 22:14:05 Usuário admin abriu a janela de exibir produtos;
+2017/05/19 22:14:07 Usuário admin selecionou o setor Elétrico;
+2017/05/19 22:14:09 Usuário admin selecionou o setor Informática;
+2017/05/19 22:14:15 Usuário admin fechou a janela de exibir produtos;
+2017/05/19 22:14:21 Usuário admin abriu a janela de cadastro de produtos;
+2017/05/19 22:14:23 Usuário admin fechou a janela de cadastro de produtos;
+2017/05/19 22:14:38 Usuário admin abriu a janela de cadastro de produtos;
+2017/05/19 22:15:08 Usuário admin cadastrou o produto Carabina no setor Camping;
+2017/05/19 22:15:09 Usuário admin fechou a janela de cadastro de produtos;
+2017/05/19 22:15:11 Usuário admin abriu a janela de exibir produtos;
+2017/05/19 22:15:13 Usuário admin selecionou o setor Camping;
+2017/05/19 22:18:11 Usuário admin fechou a janela de exibir produtos;
+2017/05/19 22:18:14 Usuário admin desconectou-se;
+
+2017/05/19 22:22:08 Usuário admin conectou-se;
+2017/05/19 22:26:12 Usuário admin desconectou-se;
+
+2017/05/20 12:48:30 Usuário admin conectou-se;
+2017/05/20 12:48:34 Usuário admin desconectou-se;
+
+2017/05/20 12:56:12 Usuário admin conectou-se;
+2017/05/20 12:56:14 Usuário admin abriu a janela de cadastro de produtos;
+2017/05/20 12:56:15 Usuário admin fechou a janela de cadastro de produtos;
+2017/05/20 12:56:17 Usuário admin desconectou-se;
+
+2017/05/20 12:56:37 Usuário admin conectou-se;
+2017/05/20 12:56:39 Usuário admin abriu a janela de cadastro de produtos;
+2017/05/20 12:56:40 Usuário admin fechou a janela de cadastro de produtos;
+2017/05/20 12:56:42 Usuário admin abriu a janela de exibir produtos;
+2017/05/20 12:56:44 Usuário admin selecionou o setor Camping;
+2017/05/20 12:56:46 Usuário admin selecionou o setor Informática;
+2017/05/20 12:56:48 Usuário admin selecionou o setor Elétrico;
+2017/05/20 12:56:50 Usuário admin fechou a janela de exibir produtos;
+2017/05/20 12:56:52 Usuário admin desconectou-se;
+
+2017/05/20 13:09:06 Usuário admin conectou-se;
+2017/05/20 13:09:12 Usuário admin abriu a janela de cadastro de setores;
+2017/05/20 13:09:23 Usuário admin deletou o setor Camping;
+2017/05/20 13:09:24 Usuário admin fechou a janela de cadastro de setores;
+2017/05/20 13:09:28 Usuário admin abriu a janela de exibir produtos;
+2017/05/20 13:09:29 Usuário admin selecionou o setor Informática;
+2017/05/20 13:09:30 Usuário admin selecionou o setor Elétrico;
+2017/05/20 13:09:32 Usuário admin selecionou o setor Informática;
+2017/05/20 13:09:34 Usuário admin selecionou o setor Elétrico;
+2017/05/20 13:09:36 Usuário admin selecionou o setor Informática;
+2017/05/20 13:09:40 Usuário admin selecionou o setor Elétrico;
+2017/05/20 13:09:42 Usuário admin selecionou o setor Informática;
+2017/05/20 13:09:47 Usuário admin selecionou o setor Elétrico;
+2017/05/20 13:09:59 Usuário admin fechou a janela de exibir produtos;
+2017/05/20 13:10:51 Usuário admin desconectou-se;
+
+2017/05/20 13:11:28 Usuário admin conectou-se;
+2017/05/20 13:53:21 Usuário admin desconectou-se;
+
+2017/05/22 21:15:33 Usuário admin conectou-se;
+2017/05/22 21:15:39 Usuário admin abriu a janela de cadastro de produtos;
+2017/05/22 21:15:51 Usuário admin cadastrou o produto Caixa de Luz no setor Elétrico;
+2017/05/22 21:15:52 Usuário admin fechou a janela de cadastro de produtos;
+2017/05/22 21:15:53 Usuário admin abriu a janela de exibir produtos;
+2017/05/22 21:15:55 Usuário admin selecionou o setor Elétrico;
+2017/05/22 21:15:59 Usuário admin selecionou o setor Informática;
+2017/05/22 21:16:02 Usuário admin fechou a janela de exibir produtos;
+2017/05/22 21:16:11 Usuário admin abriu a janela de cadastro de setores;
+2017/05/22 21:16:19 Usuário admin cadastrou o setor Utilidades;
+2017/05/22 21:16:28 Usuário admin fechou a janela de cadastro de setores;
+2017/05/22 21:16:29 Usuário admin abriu a janela de cadastro de produtos;
+2017/05/22 21:16:41 Usuário admin cadastrou o produto Caixa no setor Utilidade;
+2017/05/22 21:16:42 Usuário admin fechou a janela de cadastro de produtos;
+2017/05/22 21:16:43 Usuário admin abriu a janela de exibir produtos;
+2017/05/22 21:16:44 Usuário admin selecionou o setor Utilidade;
+2017/05/22 21:16:47 Usuário admin fechou a janela de exibir produtos;
+2017/05/22 21:16:50 Usuário admin abriu a janela de alteração do caminho do banco de dados;
+2017/05/22 21:17:04 Usuário admin fechou a janela de alteração do caminho do banco de dados
+2017/05/22 21:23:02 Usuário admin desconectou-se;
+
+2017/05/25 21:48:27 Usuário admin conectou-se;
+2017/05/25 21:48:29 Usuário admin abriu a janela de cadastro de produtos;
+2017/05/25 21:48:31 Usuário admin fechou a janela de cadastro de produtos;
+2017/05/25 21:48:32 Usuário admin desconectou-se;
+
+2017/05/26 12:08:18 Usuário admin conectou-se;
+2017/05/26 12:08:20 Usuário admin abriu a janela de alteração do caminho do banco de dados;
+2017/05/26 12:08:43 java.lang.NullPointerException
+	at projetoet.JanelaPrincipal$7.actionPerformed(JanelaPrincipal.java:396)
+	at javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:2022)
+	at javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2348)
+	at javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:402)
+	at javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:259)
+	at javax.swing.plaf.basic.BasicButtonListener.mouseReleased(BasicButtonListener.java:252)
+	at java.awt.Component.processMouseEvent(Component.java:6533)
+	at javax.swing.JComponent.processMouseEvent(JComponent.java:3324)
+	at java.awt.Component.processEvent(Component.java:6298)
+	at java.awt.Container.processEvent(Container.java:2236)
+	at java.awt.Component.dispatchEventImpl(Component.java:4889)
+	at java.awt.Container.dispatchEventImpl(Container.java:2294)
+	at java.awt.Component.dispatchEvent(Component.java:4711)
+	at java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4888)
+	at java.awt.LightweightDispatcher.processMouseEvent(Container.java:4525)
+	at java.awt.LightweightDispatcher.dispatchEvent(Container.java:4466)
+	at java.awt.Container.dispatchEventImpl(Container.java:2280)
+	at java.awt.Window.dispatchEventImpl(Window.java:2746)
+	at java.awt.Component.dispatchEvent(Component.java:4711)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:76)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:86)
+	at java.awt.EventQueue$4.run(EventQueue.java:731)
+	at java.awt.EventQueue$4.run(EventQueue.java:729)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:76)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:201)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+
+2017/05/26 12:09:27 Usuário admin fechou a janela de alteração do caminho do banco de dados
+2017/05/26 12:10:23 Usuário admin desconectou-se;
+

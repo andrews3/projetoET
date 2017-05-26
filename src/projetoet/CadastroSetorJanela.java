@@ -6,12 +6,15 @@
 package projetoet;
 
 import java.awt.Container;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDesktopPane;
@@ -22,8 +25,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
+import projetoet.util.ECLogger;
 import projetoet.util.Setor;
 import projetoet.util.SetorTableModel;
+import projetoet.util.UsuarioRepositorio;
 
 /**
  *
@@ -115,6 +120,11 @@ public class CadastroSetorJanela extends JInternalFrame {
                 stm.executeQuery("INSERT INTO SETORES (NOMESETOR) VALUES('" + nomeSetor + "')");
                 stm.execute("SHUTDOWN");
                 nomeTf.setText("");
+                try {
+                    ECLogger.insereLog("Usuário " + UsuarioRepositorio.getUsuarioConec().getNome() + " cadastrou o setor " + nomeSetor + ";");
+                } catch (IOException ex) {
+                    Logger.getLogger(CadastroSetorJanela.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 return true;
             } catch (ClassNotFoundException e) {
                 System.out.println("Erro ao carregar o driver JDBC. ");
