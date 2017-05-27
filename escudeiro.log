@@ -160,3 +160,144 @@
 2017/05/26 12:09:27 Usuário admin fechou a janela de alteração do caminho do banco de dados
 2017/05/26 12:10:23 Usuário admin desconectou-se;
 
+2017/05/26 20:17:43 Usuário admin conectou-se;
+2017/05/26 20:17:48 Usuário admin abriu a janela de exibir produtos;
+2017/05/26 20:17:49 Usuário admin selecionou o setor Elétrico;
+2017/05/26 20:18:07 Usuário admin selecionou o setor Informática;
+2017/05/26 20:18:09 Usuário admin selecionou o setor Utilidade;
+2017/05/26 20:18:14 Usuário admin selecionou o setor Informática;
+2017/05/26 20:18:17 Usuário admin selecionou o setor Elétrico;
+2017/05/26 20:18:21 Usuário admin selecionou o setor Informática;
+2017/05/26 20:18:24 Usuário admin selecionou o setor Utilidade;
+2017/05/26 20:18:26 Usuário admin selecionou o setor Informática;
+2017/05/26 20:18:28 Usuário admin selecionou o setor Elétrico;
+2017/05/26 20:18:34 Usuário admin fechou a janela de exibir produtos;
+2017/05/26 20:20:19 Usuário admin abriu a janela de exibir produtos;
+2017/05/26 20:21:37 Usuário admin fechou a janela de exibir produtos;
+2017/05/26 20:53:01 Usuário admin desconectou-se;
+
+2017/05/26 20:55:14 java.lang.NullPointerException
+	at projetoet.JanelaPrincipal$7.actionPerformed(JanelaPrincipal.java:398)
+	at javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:2022)
+	at javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2348)
+	at javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:402)
+	at javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:259)
+	at javax.swing.plaf.basic.BasicButtonListener.mouseReleased(BasicButtonListener.java:252)
+	at java.awt.Component.processMouseEvent(Component.java:6533)
+	at javax.swing.JComponent.processMouseEvent(JComponent.java:3324)
+	at java.awt.Component.processEvent(Component.java:6298)
+	at java.awt.Container.processEvent(Container.java:2236)
+	at java.awt.Component.dispatchEventImpl(Component.java:4889)
+	at java.awt.Container.dispatchEventImpl(Container.java:2294)
+	at java.awt.Component.dispatchEvent(Component.java:4711)
+	at java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4888)
+	at java.awt.LightweightDispatcher.processMouseEvent(Container.java:4525)
+	at java.awt.LightweightDispatcher.dispatchEvent(Container.java:4466)
+	at java.awt.Container.dispatchEventImpl(Container.java:2280)
+	at java.awt.Window.dispatchEventImpl(Window.java:2746)
+	at java.awt.Component.dispatchEvent(Component.java:4711)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:76)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:86)
+	at java.awt.EventQueue$4.run(EventQueue.java:731)
+	at java.awt.EventQueue$4.run(EventQueue.java:729)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:76)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:201)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+
+2017/05/26 20:56:23 java.lang.NullPointerException
+	at projetoet.JanelaPrincipal$7.actionPerformed(JanelaPrincipal.java:398)
+	at javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:2022)
+	at javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2348)
+	at javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:402)
+	at javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:259)
+	at javax.swing.plaf.basic.BasicButtonListener.mouseReleased(BasicButtonListener.java:252)
+	at java.awt.Component.processMouseEvent(Component.java:6533)
+	at javax.swing.JComponent.processMouseEvent(JComponent.java:3324)
+	at java.awt.Component.processEvent(Component.java:6298)
+	at java.awt.Container.processEvent(Container.java:2236)
+	at java.awt.Component.dispatchEventImpl(Component.java:4889)
+	at java.awt.Container.dispatchEventImpl(Container.java:2294)
+	at java.awt.Component.dispatchEvent(Component.java:4711)
+	at java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4888)
+	at java.awt.LightweightDispatcher.processMouseEvent(Container.java:4525)
+	at java.awt.LightweightDispatcher.dispatchEvent(Container.java:4466)
+	at java.awt.Container.dispatchEventImpl(Container.java:2280)
+	at java.awt.Window.dispatchEventImpl(Window.java:2746)
+	at java.awt.Component.dispatchEvent(Component.java:4711)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:76)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:86)
+	at java.awt.EventQueue$4.run(EventQueue.java:731)
+	at java.awt.EventQueue$4.run(EventQueue.java:729)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:76)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:201)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+
+2017/05/26 21:01:51 Usuário admin conectou-se;
+2017/05/26 21:01:57 Usuário admin abriu a janela de exibir produtos;
+2017/05/26 21:01:59 Usuário admin fechou a janela de exibir produtos;
+2017/05/26 21:02:01 Usuário admin abriu a janela de alteração do caminho do banco de dados;
+2017/05/26 21:02:13 Usuário admin alterou o caminho do banco de dados;
+2017/05/26 21:02:15 Usuário admin abriu a janela de exibir produtos;
+2017/05/26 21:02:17 Usuário admin fechou a janela de exibir produtos;
+2017/05/26 21:02:23 Usuário admin abriu a janela de alteração do caminho do banco de dados;
+2017/05/26 21:02:51 Usuário admin alterou o caminho do banco de dados;
+2017/05/26 21:02:54 Usuário admin abriu a janela de cadastro de produtos;
+2017/05/26 21:02:57 Usuário admin fechou a janela de cadastro de produtos;
+2017/05/26 21:02:58 Usuário admin desconectou-se;
+
+2017/05/26 21:03:40 Usuário admin conectou-se;
+2017/05/26 21:03:42 Usuário admin abriu a janela de cadastro de produtos;
+2017/05/26 21:03:44 Usuário admin fechou a janela de cadastro de produtos;
+2017/05/26 21:03:45 Usuário admin desconectou-se;
+
+2017/05/26 21:03:49 Usuário admin conectou-se;
+2017/05/26 21:03:51 Usuário admin abriu a janela de cadastro de produtos;
+2017/05/26 21:03:53 Usuário admin fechou a janela de cadastro de produtos;
+2017/05/26 21:03:54 Usuário admin desconectou-se;
+
+2017/05/26 21:11:45 Usuário admin conectou-se;
+2017/05/26 21:11:55 Usuário admin abriu a janela de cadastro de produtos;
+2017/05/26 21:11:56 Usuário admin fechou a janela de cadastro de produtos;
+2017/05/26 21:11:57 Usuário admin abriu a janela de alteração do caminho do banco de dados;
+2017/05/26 21:12:21 Usuário admin alterou o caminho do banco de dados;
+2017/05/26 21:12:27 Usuário admin abriu a janela de exibir produtos;
+2017/05/26 21:12:29 Usuário admin selecionou o setor Utilidade;
+2017/05/26 21:12:30 Usuário admin selecionou o setor Informática;
+2017/05/26 21:12:32 Usuário admin selecionou o setor Elétrico;
+2017/05/26 21:12:36 Usuário admin fechou a janela de exibir produtos;
+2017/05/26 21:12:38 Usuário admin abriu a janela de cadastro de produtos;
+2017/05/26 21:12:42 Usuário admin fechou a janela de cadastro de produtos;
+2017/05/26 21:19:06 Usuário admin desconectou-se;
+
+2017/05/26 21:19:36 Usuário admin conectou-se;
+2017/05/26 21:19:42 Usuário admin desconectou-se;
+
+2017/05/26 21:24:28 Usuário admin conectou-se;
+2017/05/26 21:24:30 Usuário admin abriu a janela de exibir produtos;
+2017/05/26 21:24:31 Usuário admin selecionou o setor Informática;
+2017/05/26 21:24:32 Usuário admin selecionou o setor Utilidade;
+2017/05/26 21:24:34 Usuário admin fechou a janela de exibir produtos;
+2017/05/26 21:24:36 Usuário admin desconectou-se;
+

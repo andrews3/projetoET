@@ -339,7 +339,12 @@ public class JanelaPrincipal extends JFrame {
             novaJanelaSelecaoBanco.setVisible(true);
             mJdp.add(novaJanelaSelecaoBanco);
             bJanelaSelecaoBanco = true;
-            ECLogger.insereLog("Usuário " + UsuarioRepositorio.getUsuarioConec().getNome() + " abriu a janela de alteração do caminho do banco de dados;");
+            try {
+                if (UsuarioRepositorio.isConec()) {
+                    ECLogger.insereLog("Usuário " + UsuarioRepositorio.getUsuarioConec().getNome() + " abriu a janela de alteração do caminho do banco de dados;");
+                }
+            } catch (NullPointerException ex) {
+            }
             try {
                 novaJanelaSelecaoBanco.setSelected(true);
             } catch (java.beans.PropertyVetoException e) {
@@ -350,9 +355,13 @@ public class JanelaPrincipal extends JFrame {
                 public void internalFrameClosing(InternalFrameEvent ife) {
                     bJanelaSelecaoBanco = false;
                     try {
-                        ECLogger.insereLog("Usuário " + UsuarioRepositorio.getUsuarioConec().getNome() + " fechou a janela de alteração do caminho do banco de dados");
+                        if (UsuarioRepositorio.isConec()) {
+                            ECLogger.insereLog("Usuário " + UsuarioRepositorio.getUsuarioConec().getNome() + " fechou a janela de alteração do caminho do banco de dados");
+                        }
                     } catch (IOException ex) {
-                        Logger.getLogger(JanelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+
+                    } catch (NullPointerException ex) {
+
                     }
                 }
 
@@ -394,6 +403,7 @@ public class JanelaPrincipal extends JFrame {
                         fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
                         fc.showOpenDialog(c);
                         novaJanelaSelecaoBanco.caminhoArquivo = fc.getSelectedFile().getAbsolutePath();
+                        
                         novaJanelaSelecaoBanco.caminhoBancoTf.setText(novaJanelaSelecaoBanco.caminhoArquivo);
                     } catch (NullPointerException ie) {
                         try {
@@ -428,29 +438,42 @@ public class JanelaPrincipal extends JFrame {
                                 for (int i = 0; i < novaJanelaSelecaoBanco.caminhoArquivoFinal.length; i++) {
                                     l = l + novaJanelaSelecaoBanco.caminhoArquivoFinal[i];
                                 }
-                                parteCaminhoBanco = l + "/";
+                                parteCaminhoBanco = l;
                                 try {
-                                    ECLogger.insereLog("Usuário " + UsuarioRepositorio.getUsuarioConec().getNome() + " alterou o caminho do banco de dados;");
+                                    if (UsuarioRepositorio.isConec()) {
+                                        ECLogger.insereLog("Usuário " + UsuarioRepositorio.getUsuarioConec().getNome() + " alterou o caminho do banco de dados;");
+                                    }
+                                } catch (IOException | NullPointerException ex) {
+                                }
+                                System.out.println(parteCaminhoBanco);
+                                bJanelaSelecaoBanco = false;
+                                novaJanelaSelecaoBanco.setVisible(false);
+                                try {
+                                    loginJanela.setVisible(false);
+                                    iniciaLogin();
+                                    loginJanela.toFront();
                                 } catch (IOException ex) {
                                     Logger.getLogger(JanelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
                                 }
-                                bJanelaSelecaoBanco = false;
-                                novaJanelaSelecaoBanco.setVisible(false);
                             } else {
                                 JOptionPane.showMessageDialog(null, "Não é possível selecionar o banco de dados de fora da raiz C:", "Caminho Inválido", JOptionPane.ERROR_MESSAGE);
                                 try {
-                                    ECLogger.insereLog("Usuário " + UsuarioRepositorio.getUsuarioConec().getNome() + " tentou alterar o caminho do banco de dados fora da raiz C:;");
+                                    if (UsuarioRepositorio.isConec()) {
+                                        ECLogger.insereLog("Usuário " + UsuarioRepositorio.getUsuarioConec().getNome() + " tentou alterar o caminho do banco de dados fora da raiz C:;");
+                                    }
                                 } catch (IOException ex) {
-                                    Logger.getLogger(JanelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+
                                 }
                             }
                         } else {
                             JOptionPane.showMessageDialog(null, "Caminho do Banco não alterado.", "Caminho Inalterado", JOptionPane.ERROR_MESSAGE);
                             bJanelaSelecaoBanco = false;
                             try {
-                                ECLogger.insereLog("Usuário " + UsuarioRepositorio.getUsuarioConec().getNome() + " tentou salvar o caminho do banco de dados com tamanho menor que 2;");
+                                if (UsuarioRepositorio.isConec()) {
+                                    ECLogger.insereLog("Usuário " + UsuarioRepositorio.getUsuarioConec().getNome() + " tentou salvar o caminho do banco de dados com tamanho menor que 2;");
+                                }
                             } catch (IOException ex) {
-                                Logger.getLogger(JanelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+
                             }
                             novaJanelaSelecaoBanco.setVisible(false);
                         }
@@ -470,7 +493,7 @@ public class JanelaPrincipal extends JFrame {
             try {
                 novaJanelaExibirProduto.setSelected(true);
             } catch (java.beans.PropertyVetoException e) {
-                 ECLogger.insereLogException(e);
+                ECLogger.insereLogException(e);
             }
             novaJanelaExibirProduto.addInternalFrameListener(new InternalFrameListener() {
 
@@ -480,7 +503,7 @@ public class JanelaPrincipal extends JFrame {
                     try {
                         ECLogger.insereLog("Usuário " + UsuarioRepositorio.getUsuarioConec().getNome() + " fechou a janela de exibir produtos;");
                     } catch (IOException ex) {
-                        Logger.getLogger(JanelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);                       
+                        Logger.getLogger(JanelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
 
