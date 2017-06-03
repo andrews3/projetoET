@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package projetoet.util;
+package projetoet.escudeiro.modelo;
 
 /**
  *
@@ -13,8 +13,13 @@ public class Setor {
 
     private String nomeSetor;
     private int id;
-    
+
     public Setor() {
+    }
+
+    public Setor(String nomeSetor, int id) {
+        this.nomeSetor = nomeSetor;
+        this.id = id;
     }
 
     public String getNomeSetor() {
@@ -31,5 +36,10 @@ public class Setor {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return nomeSetor;
     }
 }

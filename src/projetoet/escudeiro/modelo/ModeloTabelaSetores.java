@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package projetoet.util;
+package projetoet.escudeiro.modelo;
 
+import projetoet.escudeiro.modelo.Setor;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -16,56 +17,41 @@ import java.util.logging.Logger;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
-import projetoet.JanelaPrincipal;
+import projetoet.escudeiro.janelas.JanelaPrincipal;
+import projetoet.escudeiro.utilitarios.ECLogger;
+import projetoet.escudeiro.utilitarios.Repositorio;
 
 /**
  *
  * @author Andrews-PC
  */
-public class SetorTableModel extends AbstractTableModel {
+public class ModeloTabelaSetores extends AbstractTableModel {
 
     private List<Setor> dados;
     private final String[] colunas = {"Codigo Setor", "Nome Setor"};
 
-    public SetorTableModel() {
+    public ModeloTabelaSetores() {
         dados = new ArrayList<>();
 
         this.addTableModelListener(new TableModelListener() {
             @Override
             public void tableChanged(TableModelEvent tme) {
                 int linha = tme.getFirstRow();
-                try{
-                Setor s = dados.get(linha);
+                try {
+                    Setor s = dados.get(linha);
                     try {
-                        ECLogger.insereLog("Usuário " + UsuarioRepositorio.getUsuarioConec().getNome() + " alterou o nome de um setor para " + s.getNomeSetor() + ";");
+                        ECLogger.insereLog("Usuário " + Repositorio.getUsuarioConec().getNome() + " alterou o nome de um setor para " + s.getNomeSetor() + ";");
                     } catch (IOException ex) {
-                        Logger.getLogger(SetorTableModel.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(ModeloTabelaSetores.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                atualizaBanco(s);
-                }catch(IndexOutOfBoundsException ie){
+                    Repositorio.atualizaSetores(s);
+                } catch (IndexOutOfBoundsException ie) {
                     //System.out.println("Não é um erro de verdade");
                 }
-                
 
             }
         });
 
-    }
-
-    private void atualizaBanco(Setor s) {
-        try {
-            Class.forName("org.hsqldb.jdbcDriver");
-            Connection con;
-            con = DriverManager.getConnection(JanelaPrincipal.getCaminhoBanco(), "sa", "");
-            java.sql.Statement stm = con.createStatement();
-            stm.executeQuery("UPDATE SETORES SET nomeSetor = '" + s.getNomeSetor() + "' Where idsetor='" + s.getId() + "'");
-            stm.execute("SHUTDOWN");
-
-        } catch (ClassNotFoundException e) {
-            System.out.println("Erro ao carregar o driver JDBC. ");
-        } catch (SQLException e) {
-            System.out.println("Erro de SQL: " + e.getMessage());
-        }
     }
 
     public void addRow(Setor s) {

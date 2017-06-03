@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package projetoet.util;
+package projetoet.escudeiro.modelo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,12 +13,12 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author Andrews-PC
  */
-public class ProdutoTableModel extends AbstractTableModel {
+public class ModeloTabelaProdutos extends AbstractTableModel {
 
     private final String[] colunas = {"Codigo Produto", "Nome Produto"};
     private List<Produto> dados;
 
-    public ProdutoTableModel() {
+    public ModeloTabelaProdutos() {
         dados = new ArrayList();
     }
 

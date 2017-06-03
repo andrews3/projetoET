@@ -3,17 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package projetoet.util;
+package projetoet.escudeiro.modelo;
 
 /**
  *
  * @author Andrews-PC
  */
 public class Produto {
+
     private String nome;
     private int id;
     private String setor;
-    
+
     public Produto() {
     }
 
@@ -22,7 +23,6 @@ public class Produto {
         this.id = id;
         this.setor = setor;
     }
-    
 
     public String getNome() {
         return nome;
@@ -47,6 +47,10 @@ public class Produto {
     public void setSetor(String setor) {
         this.setor = setor;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return "Produto " + nome + ", com código " + id + ", cadastrado no setor " + setor;
+    }
+
 }
