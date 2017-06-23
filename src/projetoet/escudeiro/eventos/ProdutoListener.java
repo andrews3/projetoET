@@ -13,11 +13,13 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import projetoet.escudeiro.DAOs.ProdutoDAO;
 import projetoet.escudeiro.janelas.CadastroProdutoJanela;
 import projetoet.escudeiro.janelas.ExibirProdutoJanela;
 import projetoet.escudeiro.janelas.JanelaPrincipal;
 import projetoet.escudeiro.utilitarios.ECLogger;
 import projetoet.escudeiro.modelo.Produto;
+import projetoet.escudeiro.modelo.Setor;
 import projetoet.escudeiro.utilitarios.EscudeiroException;
 import projetoet.escudeiro.utilitarios.Repositorio;
 
@@ -29,6 +31,7 @@ public class ProdutoListener implements ActionListener, ListSelectionListener {
 
     private CadastroProdutoJanela frame;
     private ExibirProdutoJanela frame2;
+    private ProdutoDAO dao = new ProdutoDAO();
 
     public ProdutoListener(CadastroProdutoJanela frame) {
         this.frame = frame;
@@ -44,14 +47,15 @@ public class ProdutoListener implements ActionListener, ListSelectionListener {
             try {
                 if (frame.isValido()) {
                     Produto pro = frame.getProduto();
-                    Repositorio.insereProduto(pro);
-                    System.out.println(pro.toString());
-                    mostraMensagem("Produto Cadastrado com Sucesso", "Cadastro Finalizado");
-                    try {
-                        ECLogger.insereLog("Usuário " + Repositorio.getUsuarioConec().getNome() + " cadastrou o produto " + pro.getNome()
-                                + " no setor " + pro.getSetor() + ";");
-                    } catch (IOException ex) {
-                        Logger.getLogger(ProdutoListener.class.getName()).log(Level.SEVERE, null, ex);
+                    if (dao.insert(pro)) {
+                        System.out.println(pro.toString());
+                        mostraMensagem("Produto Cadastrado com Sucesso", "Cadastro Finalizado");
+                        try {
+                            ECLogger.insereLog("Usuário " + Repositorio.getUsuarioConec().getNome() + " cadastrou o produto " + pro.getNome()
+                                    + " no setor " + pro.getSetor() + ";");
+                        } catch (IOException ex) {
+                            Logger.getLogger(ProdutoListener.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
                 }
             } catch (EscudeiroException ex) {
@@ -61,7 +65,7 @@ public class ProdutoListener implements ActionListener, ListSelectionListener {
             try {
                 if (frame2.verificaRemocaoProduto()) {
                     Produto p = frame2.getProdutoRemocao();
-                    Repositorio.removeProduto(p);
+                    dao.removeProduto(p.getId());
                     System.out.println("Produto " + p.getNome() + " foi removido");
                     try {
                         ECLogger.insereLog("Usuário " + Repositorio.getUsuarioConec().getNome() + " deletou o produto " + p.getNome() + ";");
@@ -71,14 +75,17 @@ public class ProdutoListener implements ActionListener, ListSelectionListener {
                 }
             } catch (EscudeiroException ex) {
                 Logger.getLogger(ProdutoListener.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(ProdutoListener.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else if ("limpar".equals(ae.getActionCommand())) {
             try {
                 if (frame2.verificaLimparTabela()) {
-                    frame2.limpaTabela();
-                    System.out.println("Limpou a tabela " + frame2.getCurrentSetor());
+                    Setor cSetor = frame2.getCurrentSetor();
+                    dao.removeProdutos(cSetor.getId());
+                    System.out.println("Limpou a tabela " + cSetor.getNomeSetor());
                     try {
-                        ECLogger.insereLog("Usuário " + Repositorio.getUsuarioConec().getNome() + " limpou a tabela de produtos do setor " + frame2.getCurrentSetor() + ";");
+                        ECLogger.insereLog("Usuário " + Repositorio.getUsuarioConec().getNome() + " limpou a tabela de produtos do setor " + cSetor.getNomeSetor() + ";");
                     } catch (IOException ex) {
                         Logger.getLogger(JanelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -95,18 +102,25 @@ public class ProdutoListener implements ActionListener, ListSelectionListener {
             if (frame2.getModeloTabela().getRowCount() > 0) {
                 frame2.getModeloTabela().limpaTabela();
             }
-            String cSetor = frame2.getCurrentSetor();
-            System.out.println("Selecionou o setor: " + cSetor);
+            Setor cSetor = frame2.getCurrentSetor();
+            System.out.println("Selecionou o setor: " + cSetor.getNomeSetor() + " " + cSetor.getId());
+            try {
+                frame2.produtos = dao.getProdutos(cSetor);
+            } catch (EscudeiroException x) {
+            }
             frame2.loadProdutos();
             try {
                 ECLogger.insereLog("Usuário " + Repositorio.getUsuarioConec().getNome() + " selecionou o setor " + cSetor + ";");
             } catch (IOException ex) {
-                Logger.getLogger(JanelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                try {
+                    throw new EscudeiroException(ex);
+                } catch (EscudeiroException e) {
+                }
             }
 
         }
     }
-    
+
     private void mostraMensagem(String m, String t) {
         JOptionPane.showMessageDialog(null, m, t, JOptionPane.INFORMATION_MESSAGE);
     }

@@ -9,6 +9,7 @@ import java.awt.Container;
 import java.awt.Font;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -34,12 +35,13 @@ public class CadastroProdutoJanela extends JInternalFrame {
     JTextField codTf;
     JComboBox setorCb;
     JButton adicionarBotao;
+    public static List<Setor> setores;
 
     public Produto getProduto() {
         Produto p = new Produto();
         p.setNome(nomeTf.getText());
         p.setId(Integer.parseInt(codTf.getText()));
-        p.setSetor(setorCb.getSelectedItem().toString());
+        p.setSetor((Setor) setorCb.getSelectedItem());
         nomeTf.setText("");
         codTf.setText("");
         return p;//TODO: retornar a instaancia com os dados da janela
@@ -90,8 +92,9 @@ public class CadastroProdutoJanela extends JInternalFrame {
         setorCb = new JComboBox();
         setorCb.setBounds(120, 80, 260, 30);
         setorCb.setFont(font);
-        for (Setor i : Repositorio.getSetores()) {
-            setorCb.addItem(i.getNomeSetor());
+
+        for (Setor i : setores) {
+            setorCb.addItem(i);
         }
         c.add(setorCb);
 
@@ -129,9 +132,10 @@ public class CadastroProdutoJanela extends JInternalFrame {
         return resposta;
     }
 
-    public CadastroProdutoJanela() {
+    public CadastroProdutoJanela(List<Setor> setores2) {
         super("Cadastro de Produtos em Falta", false, true, false, false);
         c = getContentPane();
+        setores = setores2;
         c.setLayout(null);
         insereComponentes();
         URL url = this.getClass().getClassLoader().getResource("projetoet/escudeiro/imagens/shield2.png");

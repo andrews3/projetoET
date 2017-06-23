@@ -11,7 +11,9 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import projetoet.escudeiro.DAOs.UsuarioDAO;
 import projetoet.escudeiro.janelas.CadastroUsuarioJanela;
+import projetoet.escudeiro.janelas.JanelaPrincipal;
 import projetoet.escudeiro.janelas.LoginJanela;
 import projetoet.escudeiro.utilitarios.ECLogger;
 import projetoet.escudeiro.utilitarios.Repositorio;
@@ -26,6 +28,7 @@ public class UsuarioListener implements ActionListener {
 
     private LoginJanela frame;
     private CadastroUsuarioJanela frame2;
+    private UsuarioDAO dao = new UsuarioDAO();
 
     public UsuarioListener(LoginJanela frame) {
         this.frame = frame;
@@ -41,13 +44,21 @@ public class UsuarioListener implements ActionListener {
             try {
                 if (frame.verificaStrings()) {
                     Usuarios u = frame.getUsuario();
-                    Repositorio.setConec(true);
-                    Repositorio.setUsuarioConec(u);
-                    System.out.println("Login efeituado com sucesso");
-                    try {
-                        ECLogger.insereLog("Usuário " + u.getNome() + " conectou-se;");
-                    } catch (IOException ex) {
-                        Logger.getLogger(UsuarioListener.class.getName()).log(Level.SEVERE, null, ex);
+                    u = dao.isUser(u);
+                    if (u != null) {
+                        Repositorio.setConec(true);
+                        Repositorio.setUsuarioConec(u);
+                        System.out.println("Login efeituado com sucesso");
+                        frame.setVisible(false);
+                        frame.saveLastUser(u.getNome());
+                        JanelaPrincipal.visibilidadeComponentes(true);
+                        try {
+                            ECLogger.insereLog("Usuário " + u.getNome() + " conectou-se;");
+                        } catch (IOException ex) {
+                            throw new EscudeiroException(ex);
+                        }
+                    } else {
+                        mostraMensagem("Erro de autenticação", "Usuário ou senha inválidos");
                     }
                 }
             } catch (EscudeiroException ex) {
@@ -58,7 +69,7 @@ public class UsuarioListener implements ActionListener {
                 if (frame2.verificaEntrada()) {
                     Usuarios u = frame2.getUsuario();
                     System.out.println(u.toString());
-                    Repositorio.insereUsuario(u);
+                    dao.insert(u);
                     try {
                         ECLogger.insereLog("Usuário " + Repositorio.getUsuarioConec().getNome() + " cadastrou o usuário " + u.getNome() + ";");
                     } catch (IOException ex) {

@@ -10,6 +10,7 @@ import java.awt.event.WindowEvent;
 import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
@@ -26,6 +27,7 @@ import javax.swing.border.Border;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
 import projetoet.escudeiro.eventos.BotaoInicialListener;
+import projetoet.escudeiro.modelo.Setor;
 import projetoet.escudeiro.utilitarios.ECLogger;
 import projetoet.escudeiro.utilitarios.EscudeiroException;
 import projetoet.escudeiro.utilitarios.Repositorio;
@@ -157,9 +159,9 @@ public class JanelaPrincipal extends JFrame {
 
     }
 
-    public void iniciaCadastroProdutos() throws EscudeiroException {
+    public void iniciaCadastroProdutos(List<Setor> setores) throws EscudeiroException {
         if (!bJanelaCadastroProduto) {
-            novaJanelaCadastroProduto = new CadastroProdutoJanela();
+            novaJanelaCadastroProduto = new CadastroProdutoJanela(setores);
             novaJanelaCadastroProduto.setVisible(true);
             mJdp.add(novaJanelaCadastroProduto);
             try {
@@ -220,10 +222,12 @@ public class JanelaPrincipal extends JFrame {
         }
     }
 
-    public void iniciaCadastroSetores() throws EscudeiroException {
+    public void iniciaCadastroSetores(List<Setor> setores) throws EscudeiroException {
         if (!bJanelaCadastroSetor) {
             novaJanelaCadastroSetor = new CadastroSetorJanela();
             novaJanelaCadastroSetor.setVisible(true);
+            novaJanelaCadastroSetor.setores = setores;
+            novaJanelaCadastroSetor.populaTabela();
             try {
                 ECLogger.insereLog("Usuário " + Repositorio.getUsuarioConec().getNome() + " abriu a janela de cadastro de setores;");
             } catch (IOException ex) {
@@ -350,9 +354,9 @@ public class JanelaPrincipal extends JFrame {
         }
     }
 
-    public void iniciaExibirProdutos() throws EscudeiroException {
+    public void iniciaExibirProdutos(List<Setor> setores) throws EscudeiroException {
         if (!bJanelaExibirProdutos) {
-            novaJanelaExibirProduto = new ExibirProdutoJanela();
+            novaJanelaExibirProduto = new ExibirProdutoJanela(setores);
             novaJanelaExibirProduto.setVisible(true);
             mJdp.add(novaJanelaExibirProduto);
             bJanelaExibirProdutos = true;

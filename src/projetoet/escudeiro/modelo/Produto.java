@@ -13,12 +13,12 @@ public class Produto {
 
     private String nome;
     private int id;
-    private String setor;
+    private Setor setor;
 
     public Produto() {
     }
 
-    public Produto(String nome, int id, String setor) {
+    public Produto(String nome, int id, Setor setor) {
         this.nome = nome;
         this.id = id;
         this.setor = setor;
@@ -40,11 +40,11 @@ public class Produto {
         this.id = id;
     }
 
-    public String getSetor() {
+    public Setor getSetor() {
         return setor;
     }
 
-    public void setSetor(String setor) {
+    public void setSetor(Setor setor) {
         this.setor = setor;
     }
 

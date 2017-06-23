@@ -17,9 +17,8 @@ public class Setor {
     public Setor() {
     }
 
-    public Setor(String nomeSetor, int id) {
+    public Setor(String nomeSetor) {
         this.nomeSetor = nomeSetor;
-        this.id = id;
     }
 
     public String getNomeSetor() {

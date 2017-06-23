@@ -8,6 +8,7 @@ package projetoet.escudeiro.modelo;
 public class Usuarios {
 
     private String nome, senha;
+    private int codigo;
 
     public Usuarios(String nome, String senha) {
         this.nome = nome;
@@ -15,6 +16,14 @@ public class Usuarios {
     }
 
     public Usuarios() {
+    }
+
+    public int getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
     }
 
     public String getNome() {

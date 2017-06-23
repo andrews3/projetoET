@@ -23,7 +23,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import projetoet.escudeiro.eventos.UsuarioListener;
-import projetoet.escudeiro.utilitarios.Repositorio;
 import projetoet.escudeiro.modelo.Usuarios;
 import projetoet.escudeiro.utilitarios.EscudeiroException;
 
@@ -80,14 +79,9 @@ public class LoginJanela extends JInternalFrame {
     public boolean verificaStrings() throws EscudeiroException {
         if (usuarioTf.getText().length() > 0 && senhaTf.getText().length() > 0) {
             Usuarios user = new Usuarios(usuarioTf.getText(), senhaTf.getText());
-            if (verificaUser(user)) {
-                setVisible(false);
-                JanelaPrincipal.main.visibilidadeComponentes(true);
-                return true;
-            } else {
-                mostraMensagem("Usuário ou senha inválidos");
-            }
+            return true;
         } else {
+            mostraMensagem("Não é possível conectar-se sem um usuário e uma senha");
             /// SIMULAÇÃO DE EXCEPTION PARA TESTE DO LOG /////
             try {                                           //
                 String f = null;                            //
@@ -96,19 +90,6 @@ public class LoginJanela extends JInternalFrame {
                 throw new EscudeiroException(e);            //
             }                                               //
            ///////////////////////////////////////////////////
-
-            mostraMensagem("Não é possível conectar-se sem um usuário e uma senha");
-        }
-        return false;
-    }
-
-    public boolean verificaUser(Usuarios u) throws EscudeiroException {
-        usuarios = Repositorio.getUsuarios();
-        for (Usuarios x : usuarios) {
-            if (u.getNome().equals(x.getNome()) && u.getSenha().equals(x.getSenha())) {
-                saveLastUser(u.getNome());
-                return true;
-            }
         }
         return false;
     }
@@ -129,7 +110,7 @@ public class LoginJanela extends JInternalFrame {
         }
     }
 
-    private void saveLastUser(String login) throws EscudeiroException {
+    public void saveLastUser(String login) throws EscudeiroException {
         FileWriter fileWriter;
         try {
             fileWriter = new FileWriter("LUC");
@@ -150,7 +131,6 @@ public class LoginJanela extends JInternalFrame {
         c = this.getContentPane();
 
         insereComponentes();
-        usuarios = Repositorio.getUsuarios();
         loadLastUser();
 
         URL url = this.getClass().getClassLoader().getResource("projetoet/escudeiro/imagens/shield2.png");

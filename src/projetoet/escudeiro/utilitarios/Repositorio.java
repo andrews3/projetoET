@@ -5,11 +5,15 @@
  */
 package projetoet.escudeiro.utilitarios;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import projetoet.escudeiro.modelo.Usuarios;
 import projetoet.escudeiro.modelo.Setor;
 import projetoet.escudeiro.modelo.Produto;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -22,51 +26,25 @@ public class Repositorio {
     private static List<Usuarios> usuarios = new ArrayList<>();
     private static Usuarios usuarioConec;
     private static boolean conec = false;
-    private static int codAtual = 0;
 
-    public static List<Setor> getSetores() {
-        if (setores.size() < 1) {
-            insereSetor(new Setor("Geral", codAtual));
-            incrementaCodAtual();
+    public static Connection getConnection() throws EscudeiroException {
+        Connection c = null;
+        try {
+            Class.forName("org.hsqldb.jdbcDriver");
+        } catch (ClassNotFoundException ex) {
+            mostraMensagem("Não foi possível conectar ao banco de dados");
+            throw new EscudeiroException(ex);
         }
-        return setores;
-    }
-
-    public static int getCodAtual() {
-        return codAtual;
-    }
-
-    public static void incrementaCodAtual() {
-        codAtual = codAtual + 1;
-    }
-
-    public static void setSetores(List<Setor> setores) {
-        Repositorio.setores = setores;
-    }
-
-    public static List<Produto> getProdutos() {
-        return produtos;
-    }
-
-    public static List<Produto> getProdutos(String setor) {
-        List<Produto> prods = new ArrayList<>();
-        for (Produto p : produtos) {
-            if (p.getSetor().equals(setor)) {
-                prods.add(p);
-            }
+        try {
+            c = DriverManager.getConnection(
+                    "jdbc:hsqldb:hsql://127.0.0.1/data",
+                    "sa",
+                    "");
+        } catch (SQLException ex) {
+            mostraMensagem("Não foi possível conectar ao banco de dados");
+            throw new EscudeiroException(ex);
         }
-        return prods;
-    }
-
-    public static void setProdutos(List<Produto> produtos) {
-        Repositorio.produtos = produtos;
-    }
-
-    public static List<Usuarios> getUsuarios() {
-        if (usuarios.size() < 1) {
-            insereUsuario(new Usuarios("admin", "123"));
-        }
-        return usuarios;
+        return c;
     }
 
     public static void insereUsuario(Usuarios u) {
@@ -86,22 +64,6 @@ public class Repositorio {
         Repositorio.usuarios = usuarios;
     }
 
-    static public void insereProduto(Produto p) {
-        produtos.add(p);
-    }
-
-    static public void removeProduto(Produto p) {
-        produtos.remove(p);
-    }
-
-    static public void insereSetor(Setor s) {
-        setores.add(s);
-    }
-
-    static public void removeSetor(Setor s) {
-        setores.remove(s);
-    }
-
     public static Usuarios getUsuarioConec() {
         return usuarioConec;
     }
@@ -118,24 +80,6 @@ public class Repositorio {
         Repositorio.conec = conec;
     }
 
-    public static void atualizaSetores(Setor set) {
-        for (Setor s : setores) {
-            if (s.getId() == set.getId()) {
-                s.setNomeSetor(set.getNomeSetor());
-            }
-        }
-    }
-
-    public static void limpaProdutosSetor(String setor) {
-        List<Produto> prods = new ArrayList<>();
-        for (Produto p : produtos) {
-            if (!p.getSetor().equals(setor)) {
-                prods.add(p);
-            }
-        }
-        produtos = prods;
-    }
-
     public static boolean verificaCodigo(int c) {
         for (Produto p : produtos) {
             if (p.getId() == c) {
@@ -143,5 +87,9 @@ public class Repositorio {
             }
         }
         return true;
+    }
+
+    public static void mostraMensagem(String m) {
+        JOptionPane.showMessageDialog(null, m, "Erro", JOptionPane.ERROR_MESSAGE);
     }
 }

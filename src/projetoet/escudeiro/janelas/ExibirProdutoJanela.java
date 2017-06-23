@@ -31,26 +31,25 @@ public class ExibirProdutoJanela extends JInternalFrame {
 
     Container c;
     JTable tabelaProdutos;
-    JList<String> setoresLista;
+    JList<Setor> setoresLista;
     JButton botaoExcluir, botaoLimparTabela;
     TitledBorder setorBorder;
     List<Setor> setores;
-    DefaultListModel<String> model;
+    DefaultListModel<Setor> model;
     ModeloTabelaProdutos modeloTabela;
-    List<Produto> produtos;
-    String currentSetor;
+    public List<Produto> produtos;
+    Setor currentSetor;
 
     public ModeloTabelaProdutos getModeloTabela() {
         return modeloTabela;
     }
 
-    public String getCurrentSetor() {
+    public Setor getCurrentSetor() {
         currentSetor = setoresLista.getSelectedValue();
         return currentSetor;
     }
 
     public void loadProdutos() {
-        this.produtos = Repositorio.getProdutos(currentSetor);
         for (Produto p : produtos) {
             modeloTabela.addRow(p);
         }
@@ -127,11 +126,18 @@ public class ExibirProdutoJanela extends JInternalFrame {
 
     public boolean verificaLimparTabela() throws EscudeiroException {
         if (currentSetor != null) {
-            int op = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja limpar a tabela do setor " + currentSetor + "?",
-                    "Limpar Lista de Produtos", JOptionPane.YES_NO_OPTION);
-            if (op == JOptionPane.YES_OPTION) {
-                return true;
+            if (modeloTabela.getRowCount() > 0) {
+                int op = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja limpar a tabela do setor " + currentSetor + "?",
+                        "Limpar Lista de Produtos", JOptionPane.YES_NO_OPTION);
+                if (op == JOptionPane.YES_OPTION) {
+                    modeloTabela.limpaTabela();
+                    return true;
+                }
+            } else {
+                mostraMensagem("O setor " + currentSetor.getNomeSetor() + " não possui nenhum produto cadastrado");
+                return false;
             }
+
         } else {
             mostraMensagem("Nenhum setor foi selecionado, selecione um setor.");
         }
@@ -140,18 +146,15 @@ public class ExibirProdutoJanela extends JInternalFrame {
 
     public void limpaTabela() {
         modeloTabela.limpaTabela();
-        Repositorio.limpaProdutosSetor(currentSetor);
     }
 
-    public ExibirProdutoJanela() {
+    public ExibirProdutoJanela(List<Setor> setores) {
         super("Produtos em Falta", false, true, false, false);
         c = this.getContentPane();
-
+        this.setores = setores;
         insereComponentes();
-
-        setores = Repositorio.getSetores();
         for (Setor setor : setores) {
-            model.addElement(setor.getNomeSetor());
+            model.addElement(setor);
         }
 
         URL url = this.getClass().getClassLoader().getResource("projetoet/escudeiro/imagens/shield2.png");

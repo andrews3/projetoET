@@ -7,11 +7,11 @@ package projetoet.escudeiro.eventos;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import projetoet.escudeiro.janelas.JanelaPrincipal;
+import projetoet.escudeiro.DAOs.SetorDAO;
+import projetoet.escudeiro.janelas.JanelaPrincipal;;
 import projetoet.escudeiro.utilitarios.EscudeiroException;
 
 /**
@@ -21,52 +21,54 @@ import projetoet.escudeiro.utilitarios.EscudeiroException;
 public class BotaoInicialListener implements ActionListener {
 
     private JanelaPrincipal frame;
+    private SetorDAO dao;
 
     public BotaoInicialListener(JanelaPrincipal frame) {
         this.frame = frame;
+        this.dao = new SetorDAO();
     }
 
     @Override
     public void actionPerformed(ActionEvent ae) {
         switch (ae.getActionCommand()) {
-            case "cadastroProduto":  {
-            try {
-                frame.iniciaCadastroProdutos();
-            } catch (EscudeiroException ex) {
-                Logger.getLogger(BotaoInicialListener.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            }
-            break;
-            case "cadastroUsuario":  {
-            try {
-                frame.iniciaCadastroUsuario();
-            } catch (EscudeiroException ex) {
-                Logger.getLogger(BotaoInicialListener.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            case "cadastroProduto": {
+                try {
+                    frame.iniciaCadastroProdutos(dao.getSetores());
+                } catch (EscudeiroException ex) {
+                    Logger.getLogger(BotaoInicialListener.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
             break;
-            case "listarProdutos":  {
-            try {
-                frame.iniciaExibirProdutos();
-            } catch (EscudeiroException ex) {
-                Logger.getLogger(BotaoInicialListener.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            }
-            break;
-            case "sair":  {
-            try {
-                frame.sair();
-            } catch (EscudeiroException ex) {
-                Logger.getLogger(BotaoInicialListener.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            case "cadastroUsuario": {
+                try {
+                    frame.iniciaCadastroUsuario();
+                } catch (EscudeiroException ex) {
+                    Logger.getLogger(BotaoInicialListener.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
             break;
-            case "cadastroSetor":  {
-            try {
-                frame.iniciaCadastroSetores();
-            } catch (EscudeiroException ex) {
-                Logger.getLogger(BotaoInicialListener.class.getName()).log(Level.SEVERE, null, ex);
+            case "listarProdutos": {
+                try {
+                    frame.iniciaExibirProdutos(dao.getSetores());
+                } catch (EscudeiroException ex) {
+                    Logger.getLogger(BotaoInicialListener.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
+            break;
+            case "sair": {
+                try {
+                    frame.sair();
+                } catch (EscudeiroException ex) {
+                    Logger.getLogger(BotaoInicialListener.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            break;
+            case "cadastroSetor": {
+                try {
+                    frame.iniciaCadastroSetores(dao.getSetores());
+                } catch (EscudeiroException ex) {
+                    Logger.getLogger(BotaoInicialListener.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
             break;
             case "sobrePrograma": {

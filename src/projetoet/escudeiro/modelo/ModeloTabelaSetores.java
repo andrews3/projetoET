@@ -33,25 +33,6 @@ public class ModeloTabelaSetores extends AbstractTableModel {
     public ModeloTabelaSetores() {
         dados = new ArrayList<>();
 
-        this.addTableModelListener(new TableModelListener() {
-            @Override
-            public void tableChanged(TableModelEvent tme) {
-                int linha = tme.getFirstRow();
-                try {
-                    Setor s = dados.get(linha);
-                    try {
-                        ECLogger.insereLog("Usuário " + Repositorio.getUsuarioConec().getNome() + " alterou o nome de um setor para " + s.getNomeSetor() + ";");
-                    } catch (IOException ex) {
-                        Logger.getLogger(ModeloTabelaSetores.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    Repositorio.atualizaSetores(s);
-                } catch (IndexOutOfBoundsException ie) {
-                    //System.out.println("Não é um erro de verdade");
-                }
-
-            }
-        });
-
     }
 
     public void addRow(Setor s) {

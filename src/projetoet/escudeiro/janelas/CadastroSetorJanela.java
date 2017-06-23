@@ -20,7 +20,6 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 import projetoet.escudeiro.eventos.SetorListener;
-import projetoet.escudeiro.utilitarios.Repositorio;
 import projetoet.escudeiro.modelo.Setor;
 import projetoet.escudeiro.modelo.ModeloTabelaSetores;
 import projetoet.escudeiro.utilitarios.EscudeiroException;
@@ -38,7 +37,7 @@ public class CadastroSetorJanela extends JInternalFrame {
     ModeloTabelaSetores model;
     JDesktopPane mJdp;
     JTextField nomeTf;
-    List<Setor> setores;
+    public List<Setor> setores;
     JButton botaoSalvar, botaoDeletar;
 
     public ModeloTabelaSetores getModel() {
@@ -47,8 +46,8 @@ public class CadastroSetorJanela extends JInternalFrame {
 
     private void insereComponentes() {
         model = new ModeloTabelaSetores();
+        model.addTableModelListener(listener);
         tabelaSetores = new JTable(model);
-
         JScrollPane p = new JScrollPane(tabelaSetores);
         p.setBounds(5, 150, 331, 215);
         p.createVerticalScrollBar();
@@ -82,10 +81,13 @@ public class CadastroSetorJanela extends JInternalFrame {
 
     }
 
+    public Setor getModelLinha(int linha) {
+        return model.get(linha);
+    }
+
     public Setor getSetor() {
         Setor s = new Setor();
         s.setNomeSetor(nomeTf.getText());
-        s.setId(Repositorio.getCodAtual());
         nomeTf.setText("");
         return s;
     }
@@ -98,9 +100,13 @@ public class CadastroSetorJanela extends JInternalFrame {
         return false;
     }
 
-    public void populaTabela() {
-        for (Setor setor : setores) {
-            model.addRow(setor);
+    public void populaTabela() throws EscudeiroException {
+        try {
+            for (Setor setor : setores) {
+                model.addRow(setor);
+            }
+        } catch (NullPointerException e) {
+            throw new EscudeiroException(e);
         }
     }
 
@@ -140,10 +146,9 @@ public class CadastroSetorJanela extends JInternalFrame {
         return s;
     }
 
-    public CadastroSetorJanela() {
+    public CadastroSetorJanela() throws EscudeiroException  {
         super("Cadastro de Setores", false, true, false, false);
         c = this.getContentPane();
-        setores = Repositorio.getSetores();
         insereComponentes();
         populaTabela();
 
