@@ -150,7 +150,6 @@ public class CadastroSetorJanela extends JInternalFrame {
         super("Cadastro de Setores", false, true, false, false);
         c = this.getContentPane();
         insereComponentes();
-        populaTabela();
 
         URL url = this.getClass().getClassLoader().getResource("projetoet/escudeiro/imagens/shield2.png");
         ImageIcon imagemTitulo = new ImageIcon(url);
